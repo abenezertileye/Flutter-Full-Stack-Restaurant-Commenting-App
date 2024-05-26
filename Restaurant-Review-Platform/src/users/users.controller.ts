@@ -16,10 +16,17 @@ import { UserRole } from 'src/auth/enums/roles.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Auth } from 'src/auth/entities/auth.entity';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { User } from 'src/schemas/user.schema';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get('all')
+  // @UseGuards(AuthGuard, RolesGuard)
+  async getAllRestaurants(): Promise<User[]> {
+    return this.usersService.getAllRestaurants();
+  }
 
   @Post()
   @UseGuards(AuthGuard, RolesGuard)

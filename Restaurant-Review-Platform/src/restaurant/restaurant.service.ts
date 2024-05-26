@@ -15,6 +15,8 @@ export class RestaurantService {
     private restaurantModel: Model<RestaurantDocument>,
   ) {}
 
+  
+
   async getRestaurants(query: Query): Promise<Restaurant[]> {
 
     const resPerPage = 20;

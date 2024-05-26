@@ -1,5 +1,9 @@
 import '/models/restaurant_model.dart';
 
+class DefaultImage {
+  static const String imagePath = "assets/burger.jpg";
+}
+
 List<RestaurantModel> restaurantData = [
   RestaurantModel(
       imagePath: "assets/rest.jpg",

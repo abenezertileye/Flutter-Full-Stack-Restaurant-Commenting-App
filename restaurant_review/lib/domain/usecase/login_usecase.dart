@@ -10,6 +10,7 @@ class LogInUseCase {
     required String email,
     required String password,
   }) async {
+    print('in login usecase');
     final user = await loginAuthRepository.login(
       email: email,
       password: password,

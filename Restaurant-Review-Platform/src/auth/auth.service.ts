@@ -62,9 +62,9 @@ export class AuthService {
   async login(
     loginDto: LoginDto,
   ): Promise<{ access_token: string; roles: any; owner: any }> {
-    const { username, password } = loginDto;
+    const { email, password } = loginDto;
 
-    const user = await this.userModel.findOne({ username });
+    const user = await this.userModel.findOne({ email });
 
     if (user.isBanned){
       throw new BadRequestException(`user ${user.username} is banned`);
@@ -85,6 +85,7 @@ export class AuthService {
       username: user.username,
       roles: user.roles,
     };
+
     return {
       access_token: await this.jwtService.signAsync(payload),
       roles: payload['roles'],

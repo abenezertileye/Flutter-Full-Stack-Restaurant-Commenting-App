@@ -1,27 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:restaurant_review/models/user_types.dart';
-import 'package:restaurant_review/domain/entities/user.dart';
+import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
 
-class LoginAuthRepository {
+class RestaurantsRepository {
   final String _baseUrl = 'http://localhost:3000';
 
-  Future<Map<String, dynamic>> login({
-    required String email,
-    required String password,
-  }) async {
-    final response = await http.post(
-      Uri.parse('$_baseUrl/auth/login'),
+  Future<List<dynamic>> FetchRestaurants() async {
+    final response = await http.get(
+      Uri.parse('$_baseUrl/users/all'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
     );
     print(response.statusCode);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       final user = jsonDecode(response.body);
       // print(responseData);
       // final user = User(
@@ -31,10 +23,9 @@ class LoginAuthRepository {
       //   createdAt: responseData['createdAt'],
       // );
       // print(user);
-      print(user);
       return user;
     } else {
-      throw Exception('Failed to sign up: ${response.reasonPhrase}');
+      throw Exception('Failed to fetch restaurants: ${response.reasonPhrase}');
     }
   }
 }

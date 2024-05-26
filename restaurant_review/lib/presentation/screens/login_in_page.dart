@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/core/theme/app_pallete.dart';
 import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
+import 'package:restaurant_review/presentation/screens/Profile_page.dart';
 import 'package:restaurant_review/presentation/widgets/auth_field.dart';
 import 'package:restaurant_review/presentation/widgets/auth_gradient_button.dart';
 import 'package:restaurant_review/presentation/bloc/login_bloc/login_bloc.dart';
@@ -55,6 +56,12 @@ class _LogInFormState extends State<LogInForm> {
         listener: (context, state) {
           if (state is LogInSuccess) {
             Navigator.pushNamed(context, '/entry');
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (_) => ProfilePage(),
+            //   ),
+            // );
           } else if (state is LogInFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),

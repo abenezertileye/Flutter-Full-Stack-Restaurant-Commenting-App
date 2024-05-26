@@ -26,6 +26,9 @@ import { UserRole } from 'src/auth/enums/roles.enum';
 export class RestaurantController {
   constructor(private readonly restaurantService: RestaurantService) {}
 
+  
+
+  
   @Get()
   @UseGuards(AuthGuard, RolesGuard)
   async getRestaurants(@Query() query: ExpressQuery): Promise<Restaurant[]> {

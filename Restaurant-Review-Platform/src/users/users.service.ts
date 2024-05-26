@@ -14,6 +14,12 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
+  async getAllRestaurants(): Promise<User[]> {
+    const restaurants = await this.userModel.find({roles: ['owner']}).exec();
+    console.log(restaurants)
+    return restaurants
+  }
+
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }

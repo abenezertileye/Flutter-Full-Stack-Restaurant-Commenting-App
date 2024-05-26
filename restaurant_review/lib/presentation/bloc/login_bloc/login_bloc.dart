@@ -14,10 +14,10 @@ class LoginBloc extends Bloc<LoginEvent, LogInState> {
   void _onLogInButtonPressed(
       LogInButtonPressed event, Emitter<LogInState> emit) async {
     emit(LogInLoading());
-    print({
-      'username': event.email,
-      'password': event.password,
-    });
+    // print({
+    //   'username': event.email,
+    //   'password': event.password,
+    // });
     print('LogInLoading state emitted');
     try {
       final userData = await logInUseCase.execute(
