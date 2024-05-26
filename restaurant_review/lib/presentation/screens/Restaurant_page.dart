@@ -10,18 +10,19 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
-  void cancelTask(){
-      Navigator.of(context).pop();
+  void cancelTask() {
+    Navigator.of(context).pop();
   }
 
-  void createNewComment (){
+  void createNewComment() {
     showDialog(
-      context: context, 
+      context: context,
       builder: (context) {
         return DialogBox(
           onCancel: cancelTask,
         );
-      },);
+      },
+    );
   }
 
   Widget build(BuildContext context) {
