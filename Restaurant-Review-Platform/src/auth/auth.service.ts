@@ -20,21 +20,18 @@ export class AuthService {
 
   async signUp(
     signUpDto: SignUpDto,
-  ): Promise<{ access_token: string; roles: any }> {
+  ): Promise<{ access_token: string; roles: any; username: string; email: string; createdAt: Date }> {
     const { username, email, password, roles } = signUpDto;
-
+  
     if (roles.includes('admin')) {
       const existingAdmin = await this.userModel.findOne({ roles: 'admin' }).exec();
       if (existingAdmin) {
         throw new HttpException('An admin already exists', HttpStatus.CONFLICT);
-      }else{
-        const hashedPassword = await bcrypt.hash(password, 10);
-        
       }
     }
-
+  
     const hashedPassword = await bcrypt.hash(password, 10);
-
+  
     const user = new this.userModel({
       username,
       email,
@@ -42,18 +39,26 @@ export class AuthService {
       roles,
     });
     await user.save();
-
+  
     const payload = {
       sub: user._id,
       username: user.username,
+      email: user.email,
       roles: user.roles,
     };
+  
+    const accessToken = await this.jwtService.signAsync(payload);
+    const createdAt = user.get('createdAt').toLocaleDateString();  
     return {
-      access_token: await this.jwtService.signAsync(payload),
-      roles: payload['roles'],
+      access_token: accessToken,
+      roles: payload.roles,
+      username: payload.username, 
+      email: email,
+      createdAt: createdAt 
     };
   }
-
+  
+  
   async login(
     loginDto: LoginDto,
   ): Promise<{ access_token: string; roles: any; owner: any }> {

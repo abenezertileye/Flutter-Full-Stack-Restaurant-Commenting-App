@@ -4,12 +4,14 @@ import 'package:restaurant_review/core/theme/app_pallete.dart';
 import 'package:restaurant_review/presentation/screens/login_in_page.dart';
 import 'package:restaurant_review/presentation/widgets/auth_field.dart';
 import 'package:restaurant_review/presentation/widgets/auth_gradient_button.dart';
-import 'package:restaurant_review/presentation/screens/home_page.dart';
-import 'package:restaurant_review/states/sign_up_state.dart';
-import 'package:restaurant_review/bloc/sign_up_bloc.dart';
+import 'package:restaurant_review/presentation/screens/Profile_page.dart';
+import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_state.dart';
+import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/models/user_types.dart';
-import 'package:restaurant_review/events/sign_up_events.dart';
+import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_events.dart';
+import 'package:restaurant_review/infrastructure/repository/sign_up_repository.dart';
+import 'package:restaurant_review/domain/usecase/signup_usecase.dart';
 
 class SignUpPage extends StatelessWidget {
   static route() => MaterialPageRoute(
@@ -20,8 +22,11 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authRepository = AuthRepository();
+    final signUpUseCase = SignUpUseCase(authRepository: authRepository);
+
     return BlocProvider(
-      create: (context) => SignUpBloc(),
+      create: (context) => SignUpBloc(signUpUseCase: signUpUseCase),
       child: SignUpForm(),
     );
   }
@@ -43,7 +48,7 @@ class SignUpForm extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const ReviewHome(),
+                builder: (_) => ProfilePage(),
               ),
             );
           } else if (state is SignUpFailure) {
@@ -136,6 +141,7 @@ class SignUpForm extends StatelessWidget {
                         final userType = (BlocProvider.of<SignUpBloc>(context)
                                 .state as UserTypeUpdated)
                             .userType;
+                        print('SignUpButtonPressed event dispatched');
 
                         BlocProvider.of<SignUpBloc>(context).add(
                           SignUpButtonPressed(
