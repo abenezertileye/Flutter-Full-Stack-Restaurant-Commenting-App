@@ -61,14 +61,17 @@ export class AuthService {
     const { username, password } = loginDto;
 
     const user = await this.userModel.findOne({ username });
+    console.log(user)
+
+    if (!user) {
+      throw new BadRequestException('Invalid credentials');
+    }
 
     if (user.isBanned){
       throw new BadRequestException(`user ${user.username} is banned`);
     }
 
-    if (!user) {
-      throw new BadRequestException('Invalid credentials');
-    }
+    
 
     const isMatch = await bcrypt.compare(password, user.password);
 
