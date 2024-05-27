@@ -51,14 +51,6 @@ class AuthRepository {
     print(response.statusCode);
     if (response.statusCode == 201) {
       final user = jsonDecode(response.body);
-      // print(responseData);
-      // final user = User(
-      //   username: responseData['username'],
-      //   email: responseData['email'],
-      //   roles: responseData['roles'],
-      //   createdAt: responseData['createdAt'],
-      // );
-      // print(user);
       print(user);
       return user;
     } else {
