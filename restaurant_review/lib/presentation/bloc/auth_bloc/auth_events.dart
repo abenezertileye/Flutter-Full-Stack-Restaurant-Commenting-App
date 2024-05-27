@@ -1,9 +1,9 @@
 import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
 import 'package:restaurant_review/models/user_types.dart';
 
-abstract class SignUpEvent {}
+abstract class AuthEvent {}
 
-class SignUpButtonPressed extends SignUpEvent {
+class SignUpButtonPressed extends AuthEvent {
   final String username;
   final String email;
   final String password;
@@ -17,7 +17,17 @@ class SignUpButtonPressed extends SignUpEvent {
   });
 }
 
-class UserTypeSelected extends SignUpEvent {
+class LogInButtonPressed extends AuthEvent {
+  final String username;
+  final String password;
+
+  LogInButtonPressed({
+    required this.username,
+    required this.password,
+  });
+}
+
+class UserTypeSelected extends AuthEvent {
   final UserType userType;
 
   UserTypeSelected({required this.userType});

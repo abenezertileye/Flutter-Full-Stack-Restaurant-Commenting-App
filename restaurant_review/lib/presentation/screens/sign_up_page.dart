@@ -5,13 +5,13 @@ import 'package:restaurant_review/presentation/screens/login_in_page.dart';
 import 'package:restaurant_review/presentation/widgets/auth_field.dart';
 import 'package:restaurant_review/presentation/widgets/auth_gradient_button.dart';
 import 'package:restaurant_review/presentation/screens/Profile_page.dart';
-import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_state.dart';
-import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_bloc.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_state.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/models/user_types.dart';
-import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_events.dart';
-import 'package:restaurant_review/infrastructure/repository/sign_up_repository.dart';
-import 'package:restaurant_review/domain/usecase/signup_usecase.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_events.dart';
+import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
+import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
 
 class SignUpPage extends StatelessWidget {
   static route() => MaterialPageRoute(
@@ -23,10 +23,10 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepository = AuthRepository();
-    final signUpUseCase = SignUpUseCase(authRepository: authRepository);
+    final authUseCase = AuthUseCase(authRepository: authRepository);
 
     return BlocProvider(
-      create: (context) => SignUpBloc(signUpUseCase: signUpUseCase),
+      create: (context) => AuthBloc(authUseCase: authUseCase),
       child: SignUpForm(),
     );
   }
@@ -42,16 +42,16 @@ class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<SignUpBloc, SignUpState>(
+      body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is SignUpSuccess) {
+          if (state is AuthSuccess) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) => ProfilePage(),
               ),
             );
-          } else if (state is SignUpFailure) {
+          } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
@@ -92,7 +92,7 @@ class SignUpForm extends StatelessWidget {
                     isObscure: true,
                   ),
                   const SizedBox(height: 15),
-                  BlocBuilder<SignUpBloc, SignUpState>(
+                  BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
                       UserType? selectedUserType;
                       if (state is UserTypeUpdated) {
@@ -108,7 +108,7 @@ class SignUpForm extends StatelessWidget {
                             value: UserType.owner,
                             groupValue: selectedUserType,
                             onChanged: (UserType? value) {
-                              BlocProvider.of<SignUpBloc>(context).add(
+                              BlocProvider.of<AuthBloc>(context).add(
                                 UserTypeSelected(userType: value!),
                               );
                             },
@@ -120,7 +120,7 @@ class SignUpForm extends StatelessWidget {
                             value: UserType.customer,
                             groupValue: selectedUserType,
                             onChanged: (UserType? value) {
-                              BlocProvider.of<SignUpBloc>(context).add(
+                              BlocProvider.of<AuthBloc>(context).add(
                                 UserTypeSelected(userType: value!),
                               );
                             },
@@ -138,12 +138,12 @@ class SignUpForm extends StatelessWidget {
                         final email = emailController.text;
                         final password = passwordController.text;
 
-                        final userType = (BlocProvider.of<SignUpBloc>(context)
+                        final userType = (BlocProvider.of<AuthBloc>(context)
                                 .state as UserTypeUpdated)
                             .userType;
                         print('SignUpButtonPressed event dispatched');
 
-                        BlocProvider.of<SignUpBloc>(context).add(
+                        BlocProvider.of<AuthBloc>(context).add(
                           SignUpButtonPressed(
                             username: username,
                             email: email,

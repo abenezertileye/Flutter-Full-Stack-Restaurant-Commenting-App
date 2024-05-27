@@ -9,10 +9,10 @@ import '../widgets/logout.dart';
 import '../widgets/Expansion_bar.dart';
 import '../widgets/user_info.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_review/domain/usecase/signup_usecase.dart';
-import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_bloc.dart';
-import 'package:restaurant_review/infrastructure/repository/sign_up_repository.dart';
-import 'package:restaurant_review/presentation/bloc/sign_up_bloc/sign_up_state.dart';
+import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_state.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -53,10 +53,10 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepository = AuthRepository();
-    final signUpUseCase = SignUpUseCase(authRepository: authRepository);
+    final signUpUseCase = AuthUseCase(authRepository: authRepository);
 
     return BlocProvider(
-      create: (context) => SignUpBloc(signUpUseCase: signUpUseCase),
+      create: (context) => AuthBloc(authUseCase: signUpUseCase),
       child: ProfileContent(),
     );
   }
@@ -69,13 +69,13 @@ class ProfileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(
+    return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         print('Current state in ProfileContent: ${state.runtimeType}');
-        if (state is SignUpSuccess) {
+        if (state is AuthSuccess) {
           final userData = state.user;
           print('User data: $userData');
-        } else if (state is SignUpFailure) {
+        } else if (state is AuthFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),

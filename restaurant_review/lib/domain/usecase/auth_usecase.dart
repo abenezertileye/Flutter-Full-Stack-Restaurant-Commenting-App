@@ -1,13 +1,13 @@
 import 'package:restaurant_review/models/user_types.dart';
-import 'package:restaurant_review/infrastructure/repository/sign_up_repository.dart';
+import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
 import 'package:restaurant_review/domain/entities/user.dart';
 
-class SignUpUseCase {
+class AuthUseCase {
   final AuthRepository authRepository;
 
-  SignUpUseCase({required this.authRepository});
+  AuthUseCase({required this.authRepository});
 
-  Future<Map<String, dynamic>> execute({
+  Future<Map<String, dynamic>> signup({
     required String username,
     required String email,
     required String password,
@@ -18,6 +18,17 @@ class SignUpUseCase {
       email: email,
       password: password,
       userType: userType,
+    );
+    return user;
+  }
+
+  Future<Map<String, dynamic>> login({
+    required String username,
+    required String password,
+  }) async {
+    final user = await authRepository.login(
+      username: username,
+      password: password,
     );
     return user;
   }

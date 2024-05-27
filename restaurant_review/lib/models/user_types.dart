@@ -1,4 +1,1 @@
-enum UserType {
-  owner,
-  customer,
-}
+enum UserType { owner, customer, notMentioned }
