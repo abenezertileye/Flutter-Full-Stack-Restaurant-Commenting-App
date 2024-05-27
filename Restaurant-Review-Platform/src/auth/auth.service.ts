@@ -20,18 +20,21 @@ export class AuthService {
 
   async signUp(
     signUpDto: SignUpDto,
-  ): Promise<{ access_token: string; roles: any; username: string; email: string; createdAt: Date }> {
+  ): Promise<{ access_token: string; roles: any }> {
     const { username, email, password, roles } = signUpDto;
-  
+
     if (roles.includes('admin')) {
       const existingAdmin = await this.userModel.findOne({ roles: 'admin' }).exec();
       if (existingAdmin) {
         throw new HttpException('An admin already exists', HttpStatus.CONFLICT);
+      }else{
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
       }
     }
-  
+
     const hashedPassword = await bcrypt.hash(password, 10);
-  
+
     const user = new this.userModel({
       username,
       email,
@@ -39,32 +42,25 @@ export class AuthService {
       roles,
     });
     await user.save();
-  
+
     const payload = {
       sub: user._id,
       username: user.username,
-      email: user.email,
       roles: user.roles,
     };
-  
-    const accessToken = await this.jwtService.signAsync(payload);
-    const createdAt = user.get('createdAt').toLocaleDateString();  
     return {
-      access_token: accessToken,
-      roles: payload.roles,
-      username: payload.username, 
-      email: email,
-      createdAt: createdAt 
+      access_token: await this.jwtService.signAsync(payload),
+      roles: payload['roles'],
     };
   }
   
   
   async login(
     loginDto: LoginDto,
-  ): Promise<{ access_token: string; roles: any; owner: any }> {
-    const { email, password } = loginDto;
+  ): Promise<{ access_token: string; roles: any; _id: any }> {
+    const { username, password } = loginDto;
 
-    const user = await this.userModel.findOne({ email });
+    const user = await this.userModel.findOne({ username });
 
     if (user.isBanned){
       throw new BadRequestException(`user ${user.username} is banned`);
@@ -85,11 +81,10 @@ export class AuthService {
       username: user.username,
       roles: user.roles,
     };
-
     return {
       access_token: await this.jwtService.signAsync(payload),
       roles: payload['roles'],
-      owner: payload['sub'],
+      _id: payload['sub'],
     };
   }
 

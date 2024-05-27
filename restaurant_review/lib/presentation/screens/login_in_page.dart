@@ -5,11 +5,11 @@ import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
 import 'package:restaurant_review/presentation/screens/Profile_page.dart';
 import 'package:restaurant_review/presentation/widgets/auth_field.dart';
 import 'package:restaurant_review/presentation/widgets/auth_gradient_button.dart';
-import 'package:restaurant_review/presentation/bloc/login_bloc/login_bloc.dart';
-import 'package:restaurant_review/presentation/bloc/login_bloc/login_events.dart';
-import 'package:restaurant_review/presentation/bloc/login_bloc/login_state.dart';
-import 'package:restaurant_review/infrastructure/repository/login_repository.dart';
-import 'package:restaurant_review/domain/usecase/login_usecase.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_events.dart';
+import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_state.dart';
+import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
+import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
 
 class LogInPage extends StatelessWidget {
   static route() => MaterialPageRoute(
@@ -20,11 +20,11 @@ class LogInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authRepository = LoginAuthRepository();
-    final logInUseCase = LogInUseCase(loginAuthRepository: authRepository);
+    final authRepository = AuthRepository();
+    final logInUseCase = AuthUseCase(authRepository: authRepository);
 
     return BlocProvider(
-      create: (context) => LoginBloc(logInUseCase: logInUseCase),
+      create: (context) => AuthBloc(authUseCase: logInUseCase),
       child: LogInForm(),
     );
   }
@@ -39,12 +39,12 @@ class LogInForm extends StatefulWidget {
 
 class _LogInFormState extends State<LogInForm> {
   final formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
 
   @override
   void dispose() {
-    emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
     super.dispose();
   }
@@ -52,9 +52,9 @@ class _LogInFormState extends State<LogInForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<LoginBloc, LogInState>(
+      body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is LogInSuccess) {
+          if (state is AuthSuccess) {
             Navigator.pushNamed(context, '/entry');
             // Navigator.push(
             //   context,
@@ -62,7 +62,7 @@ class _LogInFormState extends State<LogInForm> {
             //     builder: (_) => ProfilePage(),
             //   ),
             // );
-          } else if (state is LogInFailure) {
+          } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
             );
@@ -84,8 +84,8 @@ class _LogInFormState extends State<LogInForm> {
                 ),
                 const SizedBox(height: 30),
                 AuthField(
-                  hintText: "Email",
-                  controller: emailController,
+                  hintText: "Username",
+                  controller: usernameController,
                 ),
                 const SizedBox(height: 15),
                 AuthField(
@@ -94,18 +94,18 @@ class _LogInFormState extends State<LogInForm> {
                   isObscure: true,
                 ),
                 const SizedBox(height: 20),
-                BlocBuilder<LoginBloc, LogInState>(
+                BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
-                    if (state is LogInLoading) {
+                    if (state is AuthLoading) {
                       return CircularProgressIndicator();
                     }
                     return AuthGradientButton(
                       buttonText: "Sign In",
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          BlocProvider.of<LoginBloc>(context).add(
+                          BlocProvider.of<AuthBloc>(context).add(
                             LogInButtonPressed(
-                              email: emailController.text,
+                              username: usernameController.text,
                               password: passwordController.text,
                             ),
                           );
