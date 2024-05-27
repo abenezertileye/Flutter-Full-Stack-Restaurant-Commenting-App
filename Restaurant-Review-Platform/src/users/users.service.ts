@@ -19,6 +19,7 @@ export class UsersService {
     console.log(restaurants)
     return restaurants
   }
+  
 
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
@@ -28,8 +29,9 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    const user = await this.userModel.find({username: username}, '-password').exec();
+    return user
   }
 
   async updateUsername(id: string, updateUserDto: UpdateUserDto) {
@@ -41,7 +43,7 @@ export class UsersService {
       user.username = new_username
     )
     await user.save()
-
+    
     return `your new username is ${new_username} `
   }
 

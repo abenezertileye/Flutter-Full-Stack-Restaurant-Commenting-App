@@ -1,7 +1,7 @@
 abstract class RestaurantPageEvent {}
 
 class FetchRestaurantDetails extends RestaurantPageEvent {
-  final String id;
+  final String username;
 
-  FetchRestaurantDetails(this.id);
+  FetchRestaurantDetails(this.username);
 }

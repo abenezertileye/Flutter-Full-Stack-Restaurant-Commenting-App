@@ -7,7 +7,8 @@ class RestaurantPageUseCase {
   RestaurantPageUseCase({required this.restaurantPageRepository});
 
   Future<Map<String, dynamic>> execute(username) async {
-    final restaurantData = await restaurantPageRepository.FetchRestaurantData();
+    final restaurantData =
+        await restaurantPageRepository.FetchRestaurantData(username);
     print(restaurantData);
     return restaurantData;
   }

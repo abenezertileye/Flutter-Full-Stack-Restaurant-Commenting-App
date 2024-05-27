@@ -7,10 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/search_widget.dart';
 import '/data/restaurant_data.dart';
 import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_bloc.dart';
+import 'package:restaurant_review/presentation/screens/Restaurant_page.dart';
 import 'package:restaurant_review/domain/usecase/restaurants_usecase.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
 import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_event.dart';
 import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_state.dart';
+import 'dart:convert';
 
 class ReviewHome extends StatelessWidget {
   const ReviewHome({super.key});
@@ -80,12 +82,18 @@ class RestaurantGrid extends StatelessWidget {
               return GestureDetector(
                 child: Restaurant(
                   imagePath: DefaultImage.imagePath,
-                  restaurantName: 'restaurant.username',
+                  restaurantName: jsonDecode(restaurant['username']),
                   status: 'open',
                   chipsList: ["Fast Food"],
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, '/restaurantpage');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => RestaurantPage(username: 'res1'),
+                    ),
+                  );
+                  // Navigator.pushNamed(context, '/restaurantpage');
                 },
               );
             },
