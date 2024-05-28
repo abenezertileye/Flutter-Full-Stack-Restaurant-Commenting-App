@@ -18,10 +18,8 @@ class RestaurantPageRepository {
     );
     print('fetching restaurant data: ${response.statusCode}');
     if (response.statusCode == 200) {
-      print('restaurantData: ${response.body}');
-
       final responseData = jsonDecode(response.body);
-      print('restaurantData: $responseData');
+      print('responseData: $responseData');
       final restaurant = Restaurant.fromJson(responseData);
       print('restaurant in restaurant page repository: $restaurant');
       return restaurant;

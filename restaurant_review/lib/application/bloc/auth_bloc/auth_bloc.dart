@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_events.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_state.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_events.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_state.dart';
 import 'package:restaurant_review/models/user_types.dart';
 import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
 

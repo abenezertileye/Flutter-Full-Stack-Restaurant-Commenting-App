@@ -10,9 +10,9 @@ import '../widgets/Expansion_bar.dart';
 import '../widgets/user_info.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_bloc.dart';
 import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_state.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_state.dart';
 
 class ProfilePage extends StatelessWidget {
   @override

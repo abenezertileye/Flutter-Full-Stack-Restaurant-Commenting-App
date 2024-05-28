@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_event.dart';
-import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_state.dart';
+import 'package:restaurant_review/application/bloc/home_page_bloc/restaurants_event.dart';
+import 'package:restaurant_review/application/bloc/home_page_bloc/restaurants_state.dart';
 import 'package:restaurant_review/domain/usecase/restaurants_usecase.dart';
 
 class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {

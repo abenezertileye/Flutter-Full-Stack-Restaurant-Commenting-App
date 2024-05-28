@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:restaurant_review/presentation/bloc/restaurant_page_bloc/restaurant_page_bloc.dart';
-import 'package:restaurant_review/presentation/bloc/restaurant_page_bloc/restaurant_page_state.dart';
-import 'package:restaurant_review/presentation/bloc/restaurant_page_bloc/restaurant_page_event.dart';
+import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_bloc.dart';
+import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_state.dart';
+import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_event.dart';
 import 'package:restaurant_review/domain/usecase/restaurant_page_usecase.dart';
 
 class RestaurantPageBloc

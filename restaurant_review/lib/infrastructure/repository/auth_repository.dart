@@ -50,6 +50,7 @@ class AuthRepository {
       }),
     );
     print(response.statusCode);
+    // print(response.body);
     if (response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
       // print('response data: $responseData');

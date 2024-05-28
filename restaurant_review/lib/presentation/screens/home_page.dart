@@ -6,12 +6,12 @@ import 'package:restaurant_review/presentation/widgets/restaurant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/search_widget.dart';
 import '/data/restaurant_data.dart';
-import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_bloc.dart';
+import 'package:restaurant_review/application/bloc/home_page_bloc/restaurants_bloc.dart';
 import 'package:restaurant_review/presentation/screens/Restaurant_page.dart';
 import 'package:restaurant_review/domain/usecase/restaurants_usecase.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
-import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_event.dart';
-import 'package:restaurant_review/presentation/bloc/home_page_bloc/restaurants_state.dart';
+import 'package:restaurant_review/application/bloc/home_page_bloc/restaurants_event.dart';
+import 'package:restaurant_review/application/bloc/home_page_bloc/restaurants_state.dart';
 import 'dart:convert';
 
 class ReviewHome extends StatelessWidget {

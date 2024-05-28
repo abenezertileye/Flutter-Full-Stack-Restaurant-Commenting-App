@@ -61,7 +61,6 @@ export class AuthService {
     const { username, password } = loginDto;
 
     const user = await this.userModel.findOne({ username });
-    console.log(user)
 
     if (!user) {
       throw new BadRequestException('Invalid credentials');

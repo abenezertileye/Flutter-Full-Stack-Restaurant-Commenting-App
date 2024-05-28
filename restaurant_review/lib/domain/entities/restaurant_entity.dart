@@ -8,7 +8,7 @@ class Restaurant {
   final String closingTime;
   final String ownerId;
   final List<String> comments;
-  final String isBanned;
+  final bool isBanned;
 
   Restaurant({
     required this.id,

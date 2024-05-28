@@ -5,9 +5,9 @@ import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
 import 'package:restaurant_review/presentation/screens/Profile_page.dart';
 import 'package:restaurant_review/presentation/widgets/auth_field.dart';
 import 'package:restaurant_review/presentation/widgets/auth_gradient_button.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_events.dart';
-import 'package:restaurant_review/presentation/bloc/auth_bloc/auth_state.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_bloc.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_events.dart';
+import 'package:restaurant_review/application/bloc/auth_bloc/auth_state.dart';
 import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
 import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
 

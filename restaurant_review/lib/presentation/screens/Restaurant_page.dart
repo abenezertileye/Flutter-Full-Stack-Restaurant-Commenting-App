@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/presentation/widgets/dialog_box.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurant_page_repository.dart';
 import 'package:restaurant_review/domain/usecase/restaurant_page_usecase.dart';
-import 'package:restaurant_review/presentation/bloc/restaurant_page_bloc/restaurant_page_event.dart';
-import 'package:restaurant_review/presentation/bloc/restaurant_page_bloc/restaurant_page_bloc.dart';
-import 'package:restaurant_review/presentation/bloc/restaurant_page_bloc/restaurant_page_state.dart';
+import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_event.dart';
+import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_bloc.dart';
+import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_state.dart';
 import '../widgets/list_tile.dart';
 import '../widgets/comments.dart';
 import '../widgets/user_tile.dart';
@@ -32,7 +32,7 @@ class RestaurantPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('restaurantId in restaurant page: $restaurantId');
+    // print('restaurantId in restaurant page: $restaurantId');
 
     final restaurantPageRepository = RestaurantPageRepository();
     final restaurantPageUseCase = RestaurantPageUseCase(
@@ -50,6 +50,7 @@ class RestaurantPage extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             } else if (state is RestaurantPageLoaded) {
               final restaurant = state.restaurant;
+              print('restaurant data in restaurant profile page: $restaurant');
               return SizedBox(
                 height: 1000,
                 child: SingleChildScrollView(
@@ -81,7 +82,7 @@ class RestaurantPage extends StatelessWidget {
                                         width: 40,
                                       ),
                                       Text(
-                                        'dummy restaurantName', // dummy restaurant name
+                                        restaurant.name,
                                         style: Theme.of(context)
                                             .textTheme
                                             .displayMedium!
@@ -96,7 +97,7 @@ class RestaurantPage extends StatelessWidget {
                                     width: 10,
                                   ),
                                   Text(
-                                    '(31)', // Dummy data,
+                                    'restaurant.comments.length', // Dummy data,
                                     style: TextStyle(
                                         fontSize: 15, color: Colors.grey),
                                   ),
@@ -112,8 +113,7 @@ class RestaurantPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       list_tile(
-                                        title:
-                                            'King George VI St, Addis Ababa', // Dummy address
+                                        title: restaurant.location,
                                         leading: Icon(Icons.location_on,
                                             size: 17, color: Colors.orange),
                                       ),
@@ -122,7 +122,7 @@ class RestaurantPage extends StatelessWidget {
                                       ),
                                       list_tile(
                                         title:
-                                            'Mon - Fri | 8:30AM - 10:00PM', // Dummy opening hours
+                                            'Mon - Fri | ${restaurant.openingTime} - ${restaurant.closingTime}',
                                         leading: Icon(
                                             Icons.access_time_outlined,
                                             size: 17,
@@ -147,9 +147,7 @@ class RestaurantPage extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
-                            Text(
-                              'Proin eget sollicitudin mauris. Phasellus imperdiet est in lectus imperdiet fringilla. Vivamus ultrices eget ligula sed placerat. Curabitur scelerisque massa eu odio tempor convallis ac porta diam. Donec nisl nunc, lobortis ac nisi vitae, mollis finibus est.', // Dummy description
-                            ),
+                            Text(restaurant.description),
                             Container(
                               margin: EdgeInsets.only(bottom: 20, top: 5),
                               child: Text(
