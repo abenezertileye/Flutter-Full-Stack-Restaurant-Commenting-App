@@ -4,6 +4,8 @@ import { AdminFuncController } from './admin_func.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/user.schema';
 import { Restaurant, RestaurantSchema } from 'src/schemas/restaurant.schema'; 
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 
 @Module({
@@ -13,6 +15,6 @@ import { Restaurant, RestaurantSchema } from 'src/schemas/restaurant.schema';
       { name: Restaurant.name, schema: RestaurantSchema }
     ]),
   ],  controllers: [AdminFuncController],
-  providers: [AdminFuncService],
+  providers: [AdminFuncService,JwtService, AuthGuard],
 })
 export class AdminFuncModule {}
