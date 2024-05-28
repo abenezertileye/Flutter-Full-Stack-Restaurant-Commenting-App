@@ -8,9 +8,9 @@ class RestaurantPageUseCase {
 
   RestaurantPageUseCase({required this.restaurantPageRepository});
 
-  Future<Restaurant> execute(username) async {
+  Future<Restaurant> execute(restaurantId) async {
     final restaurantData =
-        await restaurantPageRepository.FetchRestaurantData(username);
+        await restaurantPageRepository.FetchRestaurantData(restaurantId);
 
     print('inside restaurant page usecase$restaurantData');
     return restaurantData;

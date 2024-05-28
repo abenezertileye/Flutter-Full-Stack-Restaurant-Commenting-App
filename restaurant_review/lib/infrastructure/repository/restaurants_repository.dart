@@ -15,7 +15,7 @@ class RestaurantsRepository {
     // print(response.statusCode);
     if (response.statusCode == 200) {
       final restaurants = jsonDecode(response.body);
-      print(restaurants);
+      print('restaurants list in restaurants repo: $restaurants');
       return restaurants;
     } else {
       throw Exception('Failed to fetch restaurants: ${response.reasonPhrase}');

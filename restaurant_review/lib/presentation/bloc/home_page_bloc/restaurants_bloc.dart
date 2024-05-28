@@ -19,8 +19,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
     try {
       final restaurants = await restaurantsUseCase.execute();
       emit(RestaurantLoaded(restaurants));
-      print(restaurants);
-      // print(restaurants);
+      print('rest data in restaurants bloc: $restaurants');
     } catch (e) {
       emit(RestaurantError("Failed to fetch restaurants"));
       print(e);

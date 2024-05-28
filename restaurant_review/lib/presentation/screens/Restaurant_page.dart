@@ -11,9 +11,9 @@ import '../widgets/comments.dart';
 import '../widgets/user_tile.dart';
 
 class RestaurantPage extends StatelessWidget {
-  final String username;
+  final String restaurantId;
 
-  RestaurantPage({this.username = 'None'});
+  RestaurantPage({this.restaurantId = 'None'});
 
   void cancelTask(BuildContext context) {
     Navigator.of(context).pop();
@@ -32,7 +32,7 @@ class RestaurantPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('username: $username');
+    print('restaurantId in restaurant page: $restaurantId');
 
     final restaurantPageRepository = RestaurantPageRepository();
     final restaurantPageUseCase = RestaurantPageUseCase(
@@ -40,8 +40,9 @@ class RestaurantPage extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => RestaurantPageBloc(
-          username: username, restaurantPageUseCase: restaurantPageUseCase)
-        ..add(FetchRestaurantDetails(username)),
+          restaurantId: restaurantId,
+          restaurantPageUseCase: restaurantPageUseCase)
+        ..add(FetchRestaurantDetails(restaurantId)),
       child: Scaffold(
         body: BlocBuilder<RestaurantPageBloc, RestaurantPageState>(
           builder: (context, state) {
@@ -80,7 +81,7 @@ class RestaurantPage extends StatelessWidget {
                                         width: 40,
                                       ),
                                       Text(
-                                        'restaurant.username', // dummy username
+                                        'dummy restaurantName', // dummy restaurant name
                                         style: Theme.of(context)
                                             .textTheme
                                             .displayMedium!

@@ -9,18 +9,21 @@ class RestaurantPageRepository {
   // RestaurantPageRepository({required this.username});
   final String _baseUrl = 'http://localhost:3000';
 
-  Future<Restaurant> FetchRestaurantData(username) async {
+  Future<Restaurant> FetchRestaurantData(restaurantId) async {
     final response = await http.get(
-      Uri.parse('$_baseUrl/users/$username'),
+      Uri.parse('$_baseUrl/restaurant/$restaurantId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
     print('fetching restaurant data: ${response.statusCode}');
     if (response.statusCode == 200) {
+      print('restaurantData: ${response.body}');
+
       final responseData = jsonDecode(response.body);
+      print('restaurantData: $responseData');
       final restaurant = Restaurant.fromJson(responseData);
-      print('restaurantData: $response');
+      print('restaurant in restaurant page repository: $restaurant');
       return restaurant;
     } else {
       throw Exception('Failed to fetch restaurants: ${response.reasonPhrase}');
