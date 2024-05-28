@@ -1,13 +1,13 @@
 import 'package:restaurant_review/models/user_types.dart';
 import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
-import 'package:restaurant_review/domain/entities/user.dart';
+import 'package:restaurant_review/domain/entities/user_entity.dart';
 
 class AuthUseCase {
   final AuthRepository authRepository;
 
   AuthUseCase({required this.authRepository});
 
-  Future<Map<String, dynamic>> signup({
+  Future<User> signup({
     required String username,
     required String email,
     required String password,
@@ -22,7 +22,7 @@ class AuthUseCase {
     return user;
   }
 
-  Future<Map<String, dynamic>> login({
+  Future<User> login({
     required String username,
     required String password,
   }) async {

@@ -9,17 +9,18 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   RestaurantBloc({required this.restaurantsUseCase})
       : super(RestaurantInitial()) {
     on<FetchRestaurants>(_onFetchRestaurants);
-    print('rest bloc called');
+    // print('rest bloc called');
   }
 
   void _onFetchRestaurants(
       FetchRestaurants event, Emitter<RestaurantState> emit) async {
     emit(RestaurantLoading());
-    print('loading restaurants');
+    // print('loading restaurants');
     try {
       final restaurants = await restaurantsUseCase.execute();
       emit(RestaurantLoaded(restaurants));
       print(restaurants);
+      // print(restaurants);
     } catch (e) {
       emit(RestaurantError("Failed to fetch restaurants"));
       print(e);

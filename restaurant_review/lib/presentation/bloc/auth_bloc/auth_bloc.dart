@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     //   'password': event.password,
     //   'userType': event.userType,
     // });
-    print('SignUpLoading state emitted');
+    print('LogInLoading state emitted');
     try {
       final userData = await authUseCase.login(
         username: event.username,

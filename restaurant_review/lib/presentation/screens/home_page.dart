@@ -77,12 +77,12 @@ class RestaurantGrid extends StatelessWidget {
             itemCount: state.restaurants.length,
             itemBuilder: (context, index) {
               final restaurant = state.restaurants[index];
-              print('restaurants: ');
-              print(restaurant);
+              // print('restaurants: ');
+              // print(restaurant);
               return GestureDetector(
                 child: Restaurant(
                   imagePath: DefaultImage.imagePath,
-                  restaurantName: jsonDecode(restaurant['username']),
+                  restaurantName: restaurant['username'],
                   status: 'open',
                   chipsList: ["Fast Food"],
                 ),
@@ -90,7 +90,8 @@ class RestaurantGrid extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => RestaurantPage(username: 'res1'),
+                      builder: (_) =>
+                          RestaurantPage(username: restaurant['username']),
                     ),
                   );
                   // Navigator.pushNamed(context, '/restaurantpage');

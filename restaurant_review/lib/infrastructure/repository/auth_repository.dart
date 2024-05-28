@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:restaurant_review/models/user_types.dart';
-import 'package:restaurant_review/domain/entities/user.dart';
+import 'package:restaurant_review/domain/entities/user_entity.dart';
 
 class AuthRepository {
   final String _baseUrl = 'http://localhost:3000';
 
-  Future<Map<String, dynamic>> signUp({
+  Future<User> signUp({
     required String username,
     required String email,
     required String password,
@@ -26,15 +26,16 @@ class AuthRepository {
     );
 
     if (response.statusCode == 201) {
-      final user = jsonDecode(response.body);
-      print(user);
+      final responseData = jsonDecode(response.body);
+      final user = User.fromJson(responseData);
+      print('user: $user');
       return user;
     } else {
-      throw Exception('Failed to sign up: ${response.reasonPhrase}');
+      throw Exception('Failed to log in: ${response.reasonPhrase}');
     }
   }
 
-  Future<Map<String, dynamic>> login({
+  Future<User> login({
     required String username,
     required String password,
   }) async {
@@ -50,11 +51,13 @@ class AuthRepository {
     );
     print(response.statusCode);
     if (response.statusCode == 201) {
-      final user = jsonDecode(response.body);
-      print(user);
+      final responseData = jsonDecode(response.body);
+      // print('response data: $responseData');
+      final user = User.fromJson(responseData);
+      // print('user: $user');
       return user;
     } else {
-      throw Exception('Failed to sign up: ${response.reasonPhrase}');
+      throw Exception('Failed to log in: ${response.reasonPhrase}');
     }
   }
 }
