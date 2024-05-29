@@ -1,3 +1,5 @@
+import 'package:restaurant_review/domain/entities/comments_entity.dart';
+
 class Restaurant {
   final String id;
   final String name;
@@ -7,7 +9,7 @@ class Restaurant {
   final String openingTime;
   final String closingTime;
   final String ownerId;
-  final List<String> comments;
+  final List<Comment> comments;
   final bool isBanned;
 
   Restaurant({
@@ -24,6 +26,10 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
+    var commentsList = json['comments'] as List;
+    List<Comment> comments =
+        commentsList.map((i) => Comment.fromJson(i)).toList();
+
     return Restaurant(
       id: json['_id'],
       name: json['name'],
@@ -33,7 +39,7 @@ class Restaurant {
       openingTime: json['openingTime'],
       closingTime: json['closingTime'],
       ownerId: json['ownerId'],
-      comments: List<String>.from(json['comments'] ?? []),
+      comments: comments,
       isBanned: json['isBanned'],
     );
   }

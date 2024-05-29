@@ -5,3 +5,15 @@ class FetchRestaurantDetails extends RestaurantPageEvent {
 
   FetchRestaurantDetails(this.restaurantName);
 }
+
+class CreateCommentButtonPressed extends RestaurantPageEvent {
+  final String opinion;
+
+  CreateCommentButtonPressed({required this.opinion});
+}
+
+class DeleteCommentButtonPressed extends RestaurantPageEvent {
+  final String commentId;
+
+  DeleteCommentButtonPressed({required this.commentId});
+}

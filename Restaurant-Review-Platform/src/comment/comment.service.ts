@@ -72,8 +72,8 @@ export class CommentService {
     if (!comment) {
       throw new HttpException(`Comment not found`, HttpStatus.NOT_FOUND);
     }
-
     if (comment.userId !== userId) {
+      
       throw new HttpException(
         `You can only delete your own comments`,
         HttpStatus.UNAUTHORIZED,

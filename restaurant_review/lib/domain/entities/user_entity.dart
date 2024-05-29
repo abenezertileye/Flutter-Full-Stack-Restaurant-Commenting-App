@@ -1,12 +1,12 @@
 class User {
   final String access_token;
   final List<String> roles;
-  final String id;
+  final String? id;
 
   User({
     required this.access_token,
     required this.roles,
-    required this.id,
+    this.id,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {

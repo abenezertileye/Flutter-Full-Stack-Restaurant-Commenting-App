@@ -1,19 +1,24 @@
 class Comment {
-  final String username;
+  final String id;
   final String opinion;
-  final String date; // Assuming each comment has a date field
-
+  final String userId;
+  final String username;
+  final String restaurantId;
   Comment({
-    required this.username,
+    required this.id,
     required this.opinion,
-    required this.date,
+    required this.userId,
+    required this.username,
+    required this.restaurantId,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      username: json['username'] ?? '',
-      opinion: json['opinion'] ?? '',
-      date: json['date'] ?? '',
+      id: json['_id'] as String,
+      opinion: json['opinion'] as String,
+      userId: json['userId'] as String,
+      username: json['username'] as String,
+      restaurantId: json['restaurantId'] as String,
     );
   }
 }

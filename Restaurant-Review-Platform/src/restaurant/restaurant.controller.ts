@@ -30,7 +30,7 @@ export class RestaurantController {
 
   
   @Get()
-  // @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   async getRestaurants(@Query() query: ExpressQuery): Promise<Restaurant[]> {
     return this.restaurantService.getRestaurants(query);
   }

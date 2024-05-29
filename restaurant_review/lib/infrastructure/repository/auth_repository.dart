@@ -21,17 +21,18 @@ class AuthRepository {
         'username': username,
         'email': email,
         'password': password,
-        'roles': userType == UserType.owner ? 'owner' : 'customer',
+        'roles': userType == UserType.owner ? 'owner' : 'user',
       }),
     );
-
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
       final user = User.fromJson(responseData);
       print('user: $user');
       return user;
     } else {
-      throw Exception('Failed to log in: ${response.reasonPhrase}');
+      throw Exception('Failed to sign up: ${response.reasonPhrase}');
     }
   }
 

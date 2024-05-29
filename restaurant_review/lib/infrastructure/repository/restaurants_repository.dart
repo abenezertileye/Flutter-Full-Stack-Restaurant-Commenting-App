@@ -10,6 +10,8 @@ class RestaurantsRepository {
       Uri.parse('$_baseUrl/restaurant'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU0NDUyZDlhYTg1YTdiMmI1ZDM3NDMiLCJ1c2VybmFtZSI6InVzZXIxIiwicm9sZXMiOlsiY3VzdG9tZXIiXSwiaWF0IjoxNzE2OTIwNzAzLCJleHAiOjE3MTcwMDcxMDN9.AMPbR3DwwEctmynnSej8WQt8fWIjg9NNfy1Y-q4GpC0'
       },
     );
     // print(response.statusCode);

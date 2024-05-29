@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
 class UserTile extends StatelessWidget {
-  late String image;
-  final String name;
+  final String image;
+  final String username;
   final String date;
+  final VoidCallback onDeletePressed; // Callback function for delete action
 
-  UserTile({required this.name, required this.date, required this.image}) {
-    if (this.image == '') {
-      this.image = 'assets/images/default_profile.jpg';
-    }
-  }
+  UserTile({
+    required this.username,
+    required this.date,
+    required this.image,
+    required this.onDeletePressed, // Constructor to receive the callback
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: AssetImage(image),
+          backgroundImage: AssetImage('assets/image/default_profile.jpg'),
           radius: 20,
         ),
         title: Text(
-          name,
+          username,
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
         ),
         subtitle: Text(
@@ -32,9 +34,12 @@ class UserTile extends StatelessWidget {
           children: [
             Icon(Icons.edit),
             SizedBox(width: 12),
-            Icon(
-              Icons.delete,
-              color: Colors.red,
+            GestureDetector(
+              onTap: onDeletePressed, // Call the callback function
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
             ),
           ],
         ),

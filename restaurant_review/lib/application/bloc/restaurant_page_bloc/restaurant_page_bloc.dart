@@ -13,16 +13,60 @@ class RestaurantPageBloc
       {required this.restaurantPageUseCase, required this.restaurantId})
       : super(RestaurantPageInitial()) {
     on<FetchRestaurantDetails>(_onFetchRestaurantDetails);
+    on<CreateCommentButtonPressed>(_onCreateCommentButtonPressed);
+    on<DeleteCommentButtonPressed>(_onDeleteCommentButtonPressed);
+    // on<CreateCommentButtonPressed>(_onUpdateCommentButtonPressed);
   }
 
   void _onFetchRestaurantDetails(
       FetchRestaurantDetails event, Emitter<RestaurantPageState> emit) async {
     emit(RestaurantPageLoading());
     try {
-      final restaurant = await restaurantPageUseCase.execute(restaurantId);
+      final restaurant = await restaurantPageUseCase.fetch(restaurantId);
       emit(RestaurantPageLoaded(restaurant));
     } catch (error) {
       emit(RestaurantPageError('Failed to fetch restaurant details: $error'));
     }
   }
+
+  void _onCreateCommentButtonPressed(CreateCommentButtonPressed event,
+      Emitter<RestaurantPageState> emit) async {
+    emit(CreateCommentLoading());
+    print('loading');
+    print('UpdateCommentLoading in bloc, opinion: ${event.opinion}');
+    try {
+      final confirmation =
+          await restaurantPageUseCase.createComment(opinion: event.opinion);
+      emit(CreateCommentLoaded(confirmation));
+    } catch (error) {
+      emit(CreateCommentError('Failed create comment: $error'));
+    }
+  }
+
+  void _onDeleteCommentButtonPressed(DeleteCommentButtonPressed event,
+      Emitter<RestaurantPageState> emit) async {
+    emit(DeleteCommentLoading());
+    print('DeleteCommentLoading in bloc, Delete: ${event.commentId}');
+    try {
+      final confirmation =
+          await restaurantPageUseCase.deleteComment(commentId: event.commentId);
+      emit(DeleteCommentLoaded(confirmation));
+      print('comment delted');
+    } catch (error) {
+      emit(DeleteCommentError('Failed to delete comment: $error'));
+    }
+  }
+
+  // void _onUpdateCommentButtonPressed(UpdateCommentButtonPressed event,
+  //     Emitter<RestaurantPageState> emit) async {
+  //   emit(UpdateCommentLoading());
+  //   print('UpdateCommentLoading in bloc, opinion: ${event.opinion}');
+  //   try {
+  //     final confirmation =
+  //         await restaurantPageUseCase.updateComment(opinion: event.opinion);
+  //     emit(UpdateCommentLoaded(confirmation));
+  //   } catch (error) {
+  //     emit(UpdateCommentError('Failed to fetch restaurant details: $error'));
+  //   }
+  // }
 }

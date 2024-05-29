@@ -20,20 +20,26 @@ class RestaurantPage extends StatelessWidget {
   }
 
   void createNewComment(BuildContext context) {
+    final TextEditingController _controller = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-          onCancel: () => cancelTask(context),
-        );
+            controller: _controller,
+            onCancel: () => cancelTask(context),
+            onSave: (opinion) => {
+                  BlocProvider.of<RestaurantPageBloc>(context).add(
+                    CreateCommentButtonPressed(
+                      opinion: opinion,
+                    ),
+                  )
+                });
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('restaurantId in restaurant page: $restaurantId');
-
     final restaurantPageRepository = RestaurantPageRepository();
     final restaurantPageUseCase = RestaurantPageUseCase(
         restaurantPageRepository: restaurantPageRepository);
@@ -46,11 +52,27 @@ class RestaurantPage extends StatelessWidget {
       child: Scaffold(
         body: BlocBuilder<RestaurantPageBloc, RestaurantPageState>(
           builder: (context, state) {
+            if (state is UpdateCommentLoaded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.confirmation),
+                ),
+              );
+            }
+            if (state is DeleteCommentLoaded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.confirmation),
+                ),
+              );
+            }
             if (state is RestaurantPageLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is RestaurantPageLoaded) {
               final restaurant = state.restaurant;
               print('restaurant data in restaurant profile page: $restaurant');
+              print(
+                  'comment in restaurant profile page: ${restaurant.comments}');
               return SizedBox(
                 height: 1000,
                 child: SingleChildScrollView(
@@ -97,7 +119,7 @@ class RestaurantPage extends StatelessWidget {
                                     width: 10,
                                   ),
                                   Text(
-                                    'restaurant.comments.length', // Dummy data,
+                                    '(${restaurant.comments.length})',
                                     style: TextStyle(
                                         fontSize: 15, color: Colors.grey),
                                   ),
@@ -175,23 +197,55 @@ class RestaurantPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Comment(
-                              user_info: UserTile(
-                                  name: 'Darrow Lykos',
-                                  date: 'Nov 1, 2023',
-                                  image: ''),
-                              comment:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lobortis lorem a ultrices rhoncus. Nam efficitur sapien et tincidunt laoreet. Nulla non ante lacus. Morbi lorem mauris, posuere et risus ac, accumsan fringilla orci. Curabitur id sem in risus accumsan elementum.',
-                            ),
-                            Comment(
-                              user_info: UserTile(
-                                  name: 'Darrow Lykos',
-                                  date: 'Nov 1, 2023',
-                                  image: ''),
-                              comment:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque lobortis lorem a ultrices rhoncus. Nam efficitur sapien et tincidunt laoreet. Nulla non ante lacus. Morbi lorem mauris, posuere et risus ac, accumsan fringilla orci. Curabitur id sem in risus accumsan elementum.',
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: restaurant.comments.map((comment) {
+                                return Comment(
+                                  user_info: UserTile(
+                                    username: comment.username,
+                                    date: 'Nov 1, 2023',
+                                    image: '',
+                                    onDeletePressed: () {
+                                      BlocProvider.of<RestaurantPageBloc>(
+                                              context)
+                                          .add(
+                                        DeleteCommentButtonPressed(
+                                          commentId: comment.id,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  comment: comment.opinion,
+                                );
+                              }).toList(),
                             ),
                           ],
+                        ),
+                      ),
+                      Container(
+                        width: 60,
+                        height: 60,
+                        margin: EdgeInsets.only(
+                            bottom: 16), // Adjust margin as needed
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: RadialGradient(
+                            colors: [
+                              Color.fromARGB(255, 255, 189, 74),
+                              Color.fromARGB(255, 248, 157, 72),
+                            ],
+                          ),
+                        ),
+                        child: FloatingActionButton(
+                          onPressed: () => createNewComment(context),
+                          shape: CircleBorder(),
+                          child: Icon(
+                            Icons.add,
+                            size: 40,
+                          ),
+                          backgroundColor: Colors
+                              .transparent, // Set the background color to transparent
+                          elevation: 0, // Remove elevation
                         ),
                       ),
                     ],
@@ -203,28 +257,8 @@ class RestaurantPage extends StatelessWidget {
             } else {
               return Center(child: Text("No data"));
             }
+            ;
           },
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => createNewComment(context),
-          shape: CircleBorder(),
-          child: Container(
-            width: 60,
-            height: 60,
-            child: Icon(
-              Icons.add,
-              size: 40,
-            ),
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: RadialGradient(
-                colors: [
-                  Color.fromARGB(255, 255, 189, 74),
-                  Color.fromARGB(255, 248, 157, 72),
-                ],
-              ),
-            ),
-          ),
         ),
       ),
     );

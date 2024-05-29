@@ -9,6 +9,7 @@ class RestaurantPageRepository {
   // RestaurantPageRepository({required this.username});
   final String _baseUrl = 'http://localhost:3000';
 
+//GET RESTAURANTS
   Future<Restaurant> FetchRestaurantData(restaurantId) async {
     final response = await http.get(
       Uri.parse('$_baseUrl/restaurant/$restaurantId'),
@@ -19,12 +20,54 @@ class RestaurantPageRepository {
     print('fetching restaurant data: ${response.statusCode}');
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      print('responseData: $responseData');
+      print('responseData in restaurant repo: $responseData');
       final restaurant = Restaurant.fromJson(responseData);
-      print('restaurant in restaurant page repository: $restaurant');
+      print(
+          'restaurant comments in restaurant page repository: ${restaurant.comments}');
       return restaurant;
     } else {
       throw Exception('Failed to fetch restaurants: ${response.reasonPhrase}');
+    }
+  }
+
+//CREATE COMMENT
+  Future<String> createCommentRepo(opinion) async {
+    final response = await http
+        .post(Uri.parse('$_baseUrl/comment'), headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    }, body: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+
+    print('status code in rest page repo: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      final confirmation = 'Comment Updated Successfully';
+      return confirmation;
+    } else {
+      throw Exception('Failed to update comment: ${response.reasonPhrase}');
+    }
+  }
+
+  //DELETE COMMENT
+  Future<String> deleteCommentRepo(commentId) async {
+    // print(commentId);
+    print('$_baseUrl/comment/$commentId');
+    final response = await http.delete(
+        Uri.parse('$_baseUrl/comment/$commentId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+
+    print(
+        'delete comment status code in rest page repo: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      final confirmation = 'Comment Deleted Successfully';
+      return confirmation;
+    } else {
+      throw Exception('Failed to update comment: ${response.reasonPhrase}');
     }
   }
 }

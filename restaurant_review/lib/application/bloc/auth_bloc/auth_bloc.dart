@@ -31,12 +31,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         userType: event.userType,
       );
       print('userData in auth bloc : $userData');
-      // print('User data received in bloc: $userData');
+      print('User data received in bloc: $userData');
       emit(AuthSuccess(userData));
       print('state: $state');
     } catch (error) {
       emit(AuthFailure('Failed to sign up: $error'));
-      print(error);
+      print('error in auth bloc: $error');
     }
   }
 

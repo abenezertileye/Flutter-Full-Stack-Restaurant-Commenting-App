@@ -48,7 +48,7 @@ class SignUpForm extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => ProfilePage(),
+                builder: (_) => LogInPage(),
               ),
             );
           } else if (state is AuthFailure) {
@@ -117,7 +117,7 @@ class SignUpForm extends StatelessWidget {
                           const Text('Customer'),
                           Radio<UserType>(
                             activeColor: AppPallete.gradient3,
-                            value: UserType.customer,
+                            value: UserType.user,
                             groupValue: selectedUserType,
                             onChanged: (UserType? value) {
                               BlocProvider.of<AuthBloc>(context).add(

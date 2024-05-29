@@ -10,9 +10,13 @@ class Comment extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           user_info,
-          Text(comment),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Text(comment),
+          ),
         ],
       ),
     );
