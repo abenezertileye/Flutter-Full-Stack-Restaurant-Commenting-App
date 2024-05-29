@@ -9,7 +9,7 @@ class RestaurantPageRepository {
 
   final String _baseUrl = 'http://localhost:3000';
 
-//GET RESTAURANTS
+//GET RESTAURANT
   Future<Restaurant> FetchRestaurantData(restaurantId) async {
     String? token = await _secureStorage.read('token');
 

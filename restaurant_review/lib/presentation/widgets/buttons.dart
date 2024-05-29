@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 class Buttons extends StatelessWidget {
   final String text;
   final Color backgroundColor;
+  final VoidCallback onpressed;
 
-  Buttons({required this.text, required this.backgroundColor});
+  Buttons({
+    required this.text,
+    required this.backgroundColor,
+    required this.onpressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,7 @@ class Buttons extends StatelessWidget {
       //   maxWidth:
       // ),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onpressed,
           child: Text(
             text,
             style: TextStyle(color: Colors.white, fontSize: 12),

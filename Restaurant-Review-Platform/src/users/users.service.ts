@@ -55,7 +55,6 @@ export class UsersService {
     }
 
     const isMatch = await bcrypt.compare(old_password, user.password);
-
     if (!isMatch) {
       throw new BadRequestException('Invalid credentials');
     }else{
