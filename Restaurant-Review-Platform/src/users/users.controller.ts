@@ -50,13 +50,21 @@ export class UsersController {
     }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  //change user name
+  @Patch('/changeUserName/:id')
+  updateUsername(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateUsername(id, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  //change password
+  @Patch('/changePassword/:id')
+  updatePassword(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updatePassword(id, updateUserDto);
   }
+  
+   //delete account
+   @Delete(':id')
+   remove(@Param('id') id: string) {
+     return this.usersService.remove(id);
+   }
 }
