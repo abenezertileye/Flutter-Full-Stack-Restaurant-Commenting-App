@@ -61,7 +61,7 @@ class DeleteCommentLoaded extends RestaurantPageState {
 }
 
 class DeleteCommentError extends RestaurantPageState {
-  final String message;
+  final String error;
 
-  DeleteCommentError(this.message);
+  DeleteCommentError(this.error);
 }

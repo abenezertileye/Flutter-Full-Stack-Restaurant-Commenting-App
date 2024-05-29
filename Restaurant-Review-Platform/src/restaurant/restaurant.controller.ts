@@ -36,7 +36,7 @@ export class RestaurantController {
   }
 
   @Get(':id')
-  // @UseGuards(AuthGuard, RolesGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   async getRestaurant(@Param('id') id: string): Promise<Restaurant> {
     try {
       return this.restaurantService.getRestaurant(id);

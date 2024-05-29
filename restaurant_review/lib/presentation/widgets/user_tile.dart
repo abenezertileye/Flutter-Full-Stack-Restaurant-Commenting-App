@@ -5,12 +5,14 @@ class UserTile extends StatelessWidget {
   final String username;
   final String date;
   final VoidCallback onDeletePressed; // Callback function for delete action
+  final VoidCallback onUpdatePressed; // Callback function for delete action
 
   UserTile({
     required this.username,
     required this.date,
     required this.image,
     required this.onDeletePressed, // Constructor to receive the callback
+    required this.onUpdatePressed, // Constructor to receive the callback
   });
 
   @override
@@ -32,7 +34,12 @@ class UserTile extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.edit),
+            GestureDetector(
+              onTap: onUpdatePressed, // Call the callback function
+              child: Icon(
+                Icons.edit,
+              ),
+            ),
             SizedBox(width: 12),
             GestureDetector(
               onTap: onDeletePressed, // Call the callback function

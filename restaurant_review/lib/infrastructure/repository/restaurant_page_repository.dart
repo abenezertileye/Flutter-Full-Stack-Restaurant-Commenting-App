@@ -2,19 +2,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:restaurant_review/domain/entities/restaurant_entity.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
+import 'package:restaurant_review/data/storage.dart';
 
 class RestaurantPageRepository {
-  // final String username;
+  final SecureStorage _secureStorage = SecureStorage.instance;
 
-  // RestaurantPageRepository({required this.username});
   final String _baseUrl = 'http://localhost:3000';
 
 //GET RESTAURANTS
   Future<Restaurant> FetchRestaurantData(restaurantId) async {
+    String? token = await _secureStorage.read('token');
+
     final response = await http.get(
       Uri.parse('$_baseUrl/restaurant/$restaurantId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
       },
     );
     print('fetching restaurant data: ${response.statusCode}');
@@ -32,9 +35,12 @@ class RestaurantPageRepository {
 
 //CREATE COMMENT
   Future<String> createCommentRepo(opinion) async {
+    String? token = await _secureStorage.read('token');
+
     final response = await http
         .post(Uri.parse('$_baseUrl/comment'), headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $token'
     }, body: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     });
@@ -50,16 +56,16 @@ class RestaurantPageRepository {
 
   //DELETE COMMENT
   Future<String> deleteCommentRepo(commentId) async {
-    // print(commentId);
+    String? token = await _secureStorage.read('token');
+
     print('$_baseUrl/comment/$commentId');
     final response = await http.delete(
-        Uri.parse('$_baseUrl/comment/$commentId'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+      Uri.parse('$_baseUrl/comment/$commentId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+    );
 
     print(
         'delete comment status code in rest page repo: ${response.statusCode}');

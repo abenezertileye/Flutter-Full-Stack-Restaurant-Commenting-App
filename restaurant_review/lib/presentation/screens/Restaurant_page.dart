@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/presentation/widgets/dialog_box.dart';
+import 'package:restaurant_review/presentation/widgets/popUp.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurant_page_repository.dart';
 import 'package:restaurant_review/domain/usecase/restaurant_page_usecase.dart';
 import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_event.dart';
@@ -25,15 +26,32 @@ class RestaurantPage extends StatelessWidget {
       context: context,
       builder: (context) {
         return DialogBox(
-            controller: _controller,
-            onCancel: () => cancelTask(context),
-            onSave: (opinion) => {
-                  BlocProvider.of<RestaurantPageBloc>(context).add(
-                    CreateCommentButtonPressed(
-                      opinion: opinion,
-                    ),
-                  )
-                });
+          controller: _controller,
+          onCancel: () => cancelTask(context),
+          onSave: (opinion) {
+            BlocProvider.of<RestaurantPageBloc>(context).add(
+              CreateCommentButtonPressed(opinion: opinion),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void updateComment(BuildContext context) {
+    final TextEditingController _controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+          onCancel: () => cancelTask(context),
+          onSave: (opinion) {
+            BlocProvider.of<RestaurantPageBloc>(context).add(
+              CreateCommentButtonPressed(opinion: opinion),
+            );
+          },
+        );
       },
     );
   }
@@ -52,20 +70,24 @@ class RestaurantPage extends StatelessWidget {
       child: Scaffold(
         body: BlocBuilder<RestaurantPageBloc, RestaurantPageState>(
           builder: (context, state) {
-            if (state is UpdateCommentLoaded) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.confirmation),
-                ),
-              );
-            }
-            if (state is DeleteCommentLoaded) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.confirmation),
-                ),
-              );
-            }
+            // WidgetsBinding.instance!.addPostFrameCallback((_) {
+            //   if (state is UpdateCommentLoaded) {
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       SnackBar(
+            //         content: Text(state.confirmation),
+            //       ),
+            //     );
+            //   } else if (state is DeleteCommentLoaded) {
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       SnackBar(
+            //         content: Text(state.confirmation),
+            //       ),
+            //     );
+            //   } else if (state is DeleteCommentError) {
+            //     print(state.error);
+            //   }
+            // });
+
             if (state is RestaurantPageLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is RestaurantPageLoaded) {
@@ -202,19 +224,20 @@ class RestaurantPage extends StatelessWidget {
                               children: restaurant.comments.map((comment) {
                                 return Comment(
                                   user_info: UserTile(
-                                    username: comment.username,
-                                    date: 'Nov 1, 2023',
-                                    image: '',
-                                    onDeletePressed: () {
-                                      BlocProvider.of<RestaurantPageBloc>(
-                                              context)
-                                          .add(
-                                        DeleteCommentButtonPressed(
-                                          commentId: comment.id,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                      username: comment.username,
+                                      date: 'Nov 1, 2023',
+                                      image: '',
+                                      onDeletePressed: () {
+                                        BlocProvider.of<RestaurantPageBloc>(
+                                                context)
+                                            .add(
+                                          DeleteCommentButtonPressed(
+                                            commentId: comment.id,
+                                          ),
+                                        );
+                                      },
+                                      onUpdatePressed: () =>
+                                          print('update comment')),
                                   comment: comment.opinion,
                                 );
                               }).toList(),
@@ -254,10 +277,17 @@ class RestaurantPage extends StatelessWidget {
               );
             } else if (state is RestaurantPageError) {
               return Center(child: Text(state.message));
+            } else if (state is DeleteCommentError) {
+              return PopUp(
+                message: state.error,
+              );
+            } else if (state is DeleteCommentLoaded) {
+              return PopUp(
+                message: state.confirmation,
+              );
             } else {
               return Center(child: Text("No data"));
             }
-            ;
           },
         ),
       ),
