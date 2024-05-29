@@ -38,23 +38,23 @@ class RestaurantPage extends StatelessWidget {
     );
   }
 
-  void updateComment(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return DialogBox(
-          controller: _controller,
-          onCancel: () => cancelTask(context),
-          onSave: (opinion) {
-            BlocProvider.of<RestaurantPageBloc>(context).add(
-              CreateCommentButtonPressed(opinion: opinion),
-            );
-          },
-        );
-      },
-    );
-  }
+  // void updateComment(BuildContext context) {
+  //   final TextEditingController _controller = TextEditingController();
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return DialogBox(
+  //         controller: _controller,
+  //         onCancel: () => cancelTask(context),
+  //         onSave: (opinion) {
+  //           BlocProvider.of<RestaurantPageBloc>(context).add(
+  //             UpdateCommentButtonPressed(commentId:commentId, opinion: opinion),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -222,6 +222,8 @@ class RestaurantPage extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: restaurant.comments.map((comment) {
+                                final TextEditingController _controller =
+                                    TextEditingController();
                                 return Comment(
                                   user_info: UserTile(
                                       username: comment.username,
@@ -236,8 +238,28 @@ class RestaurantPage extends StatelessWidget {
                                           ),
                                         );
                                       },
-                                      onUpdatePressed: () =>
-                                          print('update comment')),
+                                      onUpdatePressed: () => {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return DialogBox(
+                                                  controller: _controller,
+                                                  onCancel: () =>
+                                                      cancelTask(context),
+                                                  onSave: (opinion) {
+                                                    BlocProvider.of<
+                                                                RestaurantPageBloc>(
+                                                            context)
+                                                        .add(
+                                                      UpdateCommentButtonPressed(
+                                                          commentId: comment.id,
+                                                          opinion: opinion),
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          }),
                                   comment: comment.opinion,
                                 );
                               }).toList(),

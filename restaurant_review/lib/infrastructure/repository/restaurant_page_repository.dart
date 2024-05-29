@@ -42,7 +42,7 @@ class RestaurantPageRepository {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token'
     }, body: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+      opinion: opinion
     });
 
     print('status code in rest page repo: ${response.statusCode}');
@@ -71,6 +71,30 @@ class RestaurantPageRepository {
         'delete comment status code in rest page repo: ${response.statusCode}');
     if (response.statusCode == 200) {
       final confirmation = 'Comment Deleted Successfully';
+      return confirmation;
+    } else {
+      throw Exception('Failed to update comment: ${response.reasonPhrase}');
+    }
+  }
+
+  //UPDATE COMMENTS
+  Future<String> updateCommentRepo(opinion, commentId) async {
+    String? token = await _secureStorage.read('token');
+
+    print('$_baseUrl/comment/$commentId');
+    final response = await http.patch(Uri.parse('$_baseUrl/comment/$commentId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token'
+        },
+        body: <String, String>{
+          opinion: opinion
+        });
+
+    print(
+        'update comment status code in rest page repo: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      final confirmation = 'Comment Updated Successfully';
       return confirmation;
     } else {
       throw Exception('Failed to update comment: ${response.reasonPhrase}');

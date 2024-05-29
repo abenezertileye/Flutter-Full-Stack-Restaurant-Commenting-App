@@ -15,7 +15,7 @@ class RestaurantPageBloc
     on<FetchRestaurantDetails>(_onFetchRestaurantDetails);
     on<CreateCommentButtonPressed>(_onCreateCommentButtonPressed);
     on<DeleteCommentButtonPressed>(_onDeleteCommentButtonPressed);
-    // on<CreateCommentButtonPressed>(_onUpdateCommentButtonPressed);
+    on<UpdateCommentButtonPressed>(_onUpdateCommentButtonPressed);
   }
 
   void _onFetchRestaurantDetails(
@@ -57,16 +57,17 @@ class RestaurantPageBloc
     }
   }
 
-  // void _onUpdateCommentButtonPressed(UpdateCommentButtonPressed event,
-  //     Emitter<RestaurantPageState> emit) async {
-  //   emit(UpdateCommentLoading());
-  //   print('UpdateCommentLoading in bloc, opinion: ${event.opinion}');
-  //   try {
-  //     final confirmation =
-  //         await restaurantPageUseCase.updateComment(opinion: event.opinion);
-  //     emit(UpdateCommentLoaded(confirmation));
-  //   } catch (error) {
-  //     emit(UpdateCommentError('Failed to fetch restaurant details: $error'));
-  //   }
-  // }
+  void _onUpdateCommentButtonPressed(UpdateCommentButtonPressed event,
+      Emitter<RestaurantPageState> emit) async {
+    emit(UpdateCommentLoading());
+    print(
+        'UpdateCommentLoading in bloc, opinion: ${event.opinion}, id: ${event.commentId}');
+    try {
+      final updateConfirmation = await restaurantPageUseCase.updateComment(
+          opinion: event.opinion, commentId: event.commentId);
+      emit(UpdateCommentLoaded(updateConfirmation));
+    } catch (error) {
+      emit(UpdateCommentError('Failed to fetch restaurant details: $error'));
+    }
+  }
 }

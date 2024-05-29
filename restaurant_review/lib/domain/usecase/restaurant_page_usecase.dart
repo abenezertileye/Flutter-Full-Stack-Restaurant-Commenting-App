@@ -31,11 +31,10 @@ class RestaurantPageUseCase {
     return confirmation;
   }
 
-  // Future<String> updateComment({required String opinion}) async {
-  //   final confirmation =
-  //       await restaurantPageRepository.UpdateCommentRepo(
-  //         opinion
-  //         );
-  //   return confirmation;
-  // }
+  Future<String> updateComment(
+      {required String opinion, required String commentId}) async {
+    final confirmation =
+        await restaurantPageRepository.updateCommentRepo(opinion, commentId);
+    return confirmation;
+  }
 }

@@ -2,17 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/presentation/screens/modal_form.dart';
 import '../widgets/text_fields.dart';
 import '../widgets/logout.dart';
 import '../widgets/Expansion_bar.dart';
 import '../widgets/user_info.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_review/domain/usecase/auth_usecase.dart';
-import 'package:restaurant_review/application/bloc/auth_bloc/auth_bloc.dart';
-import 'package:restaurant_review/infrastructure/repository/auth_repository.dart';
-import 'package:restaurant_review/application/bloc/auth_bloc/auth_state.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -52,13 +46,7 @@ class ProfilePage extends StatelessWidget {
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authRepository = AuthRepository();
-    final signUpUseCase = AuthUseCase(authRepository: authRepository);
-
-    return BlocProvider(
-      create: (context) => AuthBloc(authUseCase: signUpUseCase),
-      child: ProfileContent(),
-    );
+    return ProfileContent();
   }
 }
 
@@ -69,115 +57,106 @@ class ProfileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        print('Current state in ProfileContent: ${state.runtimeType}');
-        if (state is AuthSuccess) {
-          final userData = state.user;
-          print('User data: $userData');
-        } else if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
-            ),
-          );
-        }
+    // Static user data for display
+    final userData = {
+      'name': 'Darrow Lykos',
+      'email': 'darrow1@gmail.com',
+      'phoneNumber': '+251951479135',
+      'joinedDate': 'Nov 2023',
+    };
 
-        return Padding(
-            padding: EdgeInsets.all(40),
-            child: SingleChildScrollView(
+    return Padding(
+        padding: EdgeInsets.all(40),
+        child: SingleChildScrollView(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                margin: EdgeInsets.only(bottom: 20),
+                child: const ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundImage:
+                        AssetImage('assets/images/default_profile.jpg'),
+                  ),
+                  title: Text(
+                    'Darrow Lykos',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                  ),
+                  subtitle: Text(
+                    '  Joined Nov 2023',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                )),
+            Container(
+              margin: EdgeInsets.only(bottom: 20),
+              child: Text(
+                'Verified Info',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            ),
+            UserInfo(
+              name: userData['name']!,
+              email: userData['email']!,
+              phoneNumber: userData['phoneNumber']!,
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Text(
+                'Account Settings',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15),
+              ),
+            ),
+            ExpansionBar(
+              title: 'Change Password',
+              children: Container(
+                padding: EdgeInsets.only(left: 15),
                 child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    margin: EdgeInsets.only(bottom: 20),
-                    child: const ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                            AssetImage('assets/images/default_profile.jpg'),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Textfields(
+                        subtitles: 'Enter Old Password',
                       ),
-                      title: Text(
-                        'Darrow Lykos',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w900),
-                      ),
-                      subtitle: Text(
-                        '  Joined Nov 2023',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    )),
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Verified Info',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                ),
-                UserInfo(
-                  name: 'Dlyoofs',
-                  email: 'darrow1@gmail.com',
-                  phoneNumber: '+251951479135',
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'Account Settings',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
-                  ),
-                ),
-                ExpansionBar(
-                  title: 'Change Password',
-                  children: Container(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Textfields(
-                            subtitles: 'Enter Old Password',
-                          ),
-                          Textfields(
-                            subtitles: 'Enter New Password',
-                          )
-                        ]),
-                  ),
-                  childOfButton1: 'Save Changes',
-                  childOfButton2: 'Cancel',
-                  buttonBackgroundColor: Color.fromARGB(255, 255, 115, 0),
-                ),
-                Container(
-                  child: ExpansionBar(
-                    title: 'Delete Account',
-                    titleColor: Colors.red,
-                    children: Row(
-                      children: [
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                            child: Text(
-                                'Are you sure you wannt to delete your account?')),
-                      ],
+                      Textfields(
+                        subtitles: 'Enter New Password',
+                      )
+                    ]),
+              ),
+              childOfButton1: 'Save Changes',
+              childOfButton2: 'Cancel',
+              buttonBackgroundColor: Color.fromARGB(255, 255, 115, 0),
+            ),
+            Container(
+              child: ExpansionBar(
+                title: 'Delete Account',
+                titleColor: Colors.red,
+                children: Row(
+                  children: [
+                    SizedBox(
+                      width: 15,
                     ),
-                    childOfButton1: 'Confirm',
-                    childOfButton2: 'Cancel',
-                    buttonBackgroundColor: Colors.red,
-                  ),
+                    Expanded(
+                        child: Text(
+                            'Are you sure you wannt to delete your account?')),
+                  ],
                 ),
-                Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [LogOut()]))
-              ],
-            )));
-      },
-    );
+                childOfButton1: 'Confirm',
+                childOfButton2: 'Cancel',
+                buttonBackgroundColor: Colors.red,
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [LogOut()]))
+          ],
+        )));
   }
 }
