@@ -14,8 +14,8 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<FetchUsers>((event, emit) async {
       emit(AdminLoading());
       try {
-        final owners = await adminRepository.fetchOwners();
-        final customers = await adminRepository.fetchCustomers();
+        final owners = await adminRepository.fetch('owner');
+        final customers = await adminRepository.fetch('user');
         emit(AdminLoaded(owners: owners, customers: customers));
       } catch (e) {
         emit(AdminError(message: e.toString()));
@@ -39,11 +39,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       print('owner block attempt');
       if (currentState is AdminLoaded) {
         try {
-          await adminRepository
-              .banOwners(currentState.owners[event.index].name);
-          print('user to be banned: ${currentState.owners[event.index].name}');
+          await adminRepository.ban(currentState.owners[event.index].username);
+          print(
+              'user to be banned: ${currentState.owners[event.index].username}');
 
-          final updatedOwners = List<Restaurant>.from(currentState.owners);
+          final updatedOwners = List<UserDetail>.from(currentState.owners);
           updatedOwners[event.index] =
               updatedOwners[event.index].copyWith(isBanned: event.isBanned);
 

@@ -24,6 +24,7 @@ export class AdminFuncService {
   // }
 
  async ban(username: string) {
+  console.log(username)
   const user = await this.userModel.findOneAndUpdate({ username }, { isBanned: true }, { new: true }).exec();
   const restaurant = await this.restaurantModel.findOneAndUpdate({ ownerId: user._id }, { isBanned: true }, { new: true }).exec();
   

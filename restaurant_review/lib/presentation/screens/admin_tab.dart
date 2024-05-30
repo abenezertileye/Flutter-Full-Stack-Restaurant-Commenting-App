@@ -77,7 +77,7 @@ class _AdminTabState extends State<AdminTab> {
                   ListView.builder(
                     itemCount: state.owners.length,
                     itemBuilder: (context, index) => UsersView(
-                      name: state.owners[index].name,
+                      name: state.owners[index].username,
                       isBanned: state.owners[index].isBanned,
                       onChanged: (value) => toggleBanOwner(index, value),
                     ),

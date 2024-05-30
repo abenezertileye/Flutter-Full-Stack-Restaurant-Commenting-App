@@ -10,13 +10,11 @@ class AdminRepository {
 
   final String _baseUrl = 'http://localhost:3000';
 
-  //FETCH ALL CUSTOMERS
-
-  Future<List<UserDetail>> fetchCustomers() async {
+  Future<List<UserDetail>> fetch(role) async {
     String? token = await _secureStorage.read('token');
 
     final response = await http.get(
-      Uri.parse('$_baseUrl/users?roles=user'),
+      Uri.parse('$_baseUrl/users?roles=$role'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
@@ -41,69 +39,48 @@ class AdminRepository {
     }
   }
 
-//FETCH ALL OWNERS
-  Future<List<Restaurant>> fetchOwners() async {
-    String? token = await _secureStorage.read('token');
+// //FETCH ALL OWNERS
+//   Future<List<Restaurant>> fetchOwners() async {
+//     String? token = await _secureStorage.read('token');
 
-    final response = await http.get(
-      Uri.parse('$_baseUrl/restaurant?roles=owner'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token'
-      },
-    );
+//     final response = await http.get(
+//       Uri.parse('$_baseUrl/user?roles=owner'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//         'Authorization': 'Bearer $token'
+//       },
+//     );
 
-    print('status code in admin repo: ${response.statusCode}');
+//     print('status code in admin repo: ${response.statusCode}');
 
-    if (response.statusCode == 200) {
-      // Decode the response body as a list
-      final responseData = jsonDecode(response.body);
+//     if (response.statusCode == 200) {
+//       // Decode the response body as a list
+//       final responseData = jsonDecode(response.body);
 
-      if (responseData is List) {
-        // print('response in admin repo (as List): $responseData');
+//       if (responseData is List) {
+//         // print('response in admin repo (as List): $responseData');
 
-        // Map each item in the list to a Restaurant object
-        final List<Restaurant> owners = responseData.map((data) {
-          return Restaurant.fromJson(data as Map<String, dynamic>);
-        }).toList();
+//         // Map each item in the list to a Restaurant object
+//         final List<UserDetail> owners = responseData.map((data) {
+//           return UserDetail.fromJson(data as Map<String, dynamic>);
+//         }).toList();
 
-        // print('owners list in admin repo: $owners');
-        return owners;
-      } else {
-        throw Exception('Expected a list but got ${responseData.runtimeType}');
-      }
-    } else {
-      throw Exception('Failed to fetch owners: ${response.reasonPhrase}');
-    }
-  }
+//         // print('owners list in admin repo: $owners');
+//         return owners;
+//       } else {
+//         throw Exception('Expected a list but got ${responseData.runtimeType}');
+//       }
+//     } else {
+//       throw Exception('Failed to fetch owners: ${response.reasonPhrase}');
+//     }
+//   }
 
-//BAN CUSTOMERS
-  Future<String> banCustomer(username) async {
-    String? token = await _secureStorage.read('token');
-
-    final response = await http.patch(
-      Uri.parse('$_baseUrl/admin-func/unban/$username'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token'
-      },
-    );
-
-    print('status code in admin repo: ${response.statusCode}');
-
-    if (response.statusCode == 200) {
-      return 'Customer Banned Successfully';
-    } else {
-      throw Exception('Failed to fetch owners: ${response.reasonPhrase}');
-    }
-  }
-
-//BAN OWNERS  -
-  Future<String> banOwners(username) async {
+  Future<String> ban(username) async {
+    print(username);
     String? token = await _secureStorage.read('token');
 
     final response = await http.patch(
-      Uri.parse('$_baseUrl/admin-func/unban/$username'),
+      Uri.parse('$_baseUrl/admin-func/ban/$username'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
@@ -113,6 +90,7 @@ class AdminRepository {
     print('status code in admin repo: ${response.statusCode}');
 
     if (response.statusCode == 200) {
+      print('Customer Banned Successfully');
       return 'Customer Banned Successfully';
     } else {
       throw Exception('Failed to fetch owners: ${response.reasonPhrase}');

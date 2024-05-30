@@ -12,7 +12,7 @@ class AdminInitial extends AdminState {}
 class AdminLoading extends AdminState {}
 
 class AdminLoaded extends AdminState {
-  final List<Restaurant> owners;
+  final List<UserDetail> owners;
   final List<UserDetail> customers;
 
   AdminLoaded({required this.owners, required this.customers});
