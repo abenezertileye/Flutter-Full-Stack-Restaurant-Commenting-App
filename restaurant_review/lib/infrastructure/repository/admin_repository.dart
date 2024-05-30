@@ -77,7 +77,29 @@ class AdminRepository {
     }
   }
 
+//BAN CUSTOMERS
   Future<String> banCustomer(username) async {
+    String? token = await _secureStorage.read('token');
+
+    final response = await http.patch(
+      Uri.parse('$_baseUrl/admin-func/unban/$username'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+    print('status code in admin repo: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      return 'Customer Banned Successfully';
+    } else {
+      throw Exception('Failed to fetch owners: ${response.reasonPhrase}');
+    }
+  }
+
+//BAN OWNERS  -
+  Future<String> banOwners(username) async {
     String? token = await _secureStorage.read('token');
 
     final response = await http.patch(

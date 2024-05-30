@@ -25,7 +25,4 @@ class AdminError extends AdminState {
   final String message;
 
   AdminError({required this.message});
-
-  @override
-  List<Object> get props => [message];
 }

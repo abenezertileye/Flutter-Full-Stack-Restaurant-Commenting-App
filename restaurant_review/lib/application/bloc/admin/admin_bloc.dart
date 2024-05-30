@@ -35,24 +35,24 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     });
 
     on<ToggleBanOwner>((event, emit) async {
-  final currentState = state;
-  if (currentState is AdminLoaded) {
-    try {
-      // Send ban request to the repository
-      await adminRepository.banCustomer(currentState.owners[event.index].name);
+      final currentState = state;
+      print('owner block attempt');
+      if (currentState is AdminLoaded) {
+        try {
+          await adminRepository
+              .banOwners(currentState.owners[event.index].name);
+          print('user to be banned: ${currentState.owners[event.index].name}');
 
-      // Update the local state after successful ban
-      final updatedOwners = List<Restaurant>.from(currentState.owners);
-      updatedOwners[event.index] =
-          updatedOwners[event.index].copyWith(isBanned: event.isBanned);
+          final updatedOwners = List<Restaurant>.from(currentState.owners);
+          updatedOwners[event.index] =
+              updatedOwners[event.index].copyWith(isBanned: event.isBanned);
 
-      emit(AdminLoaded(
-          owners: updatedOwners, customers: currentState.customers));
-    } catch (e) {
-      // Handle the error appropriately (e.g., emit a failure state)
-      emit(AdminError('Failed to ban owner: ${e}'));
-    }
+          emit(AdminLoaded(
+              owners: updatedOwners, customers: currentState.customers));
+        } catch (e) {
+          emit(AdminError(message: 'Failed to ban owner: ${e}'));
+        }
+      }
+    });
   }
-});
-
 }
