@@ -35,9 +35,9 @@ export class UsersController {
 
   @Get()
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles(UserRole.USER)
-  findAll() {
-    return this.usersService.findAll();
+  @Roles(UserRole.ADMIN)
+  findAll(@Query('roles') roles: string) {
+    return this.usersService.findAll(roles);
   }
 
   @Get(':id')
