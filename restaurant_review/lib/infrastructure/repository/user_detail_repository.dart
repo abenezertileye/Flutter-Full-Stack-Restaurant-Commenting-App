@@ -6,12 +6,17 @@ import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class UserRepository {
+  //jwt decoder for user detail entities
   final SecureStorage _secureStorage = SecureStorage.instance;
 
   final String _baseUrl = 'http://localhost:3000';
 
 //FETCH USER DETAIL INFO
   Future<UserDetail> fetchUser() async {
+<<<<<<< HEAD
+=======
+    //jwt decoder for fetching users
+>>>>>>> eac32498617bbb3ead36b318cdb962caf71bad72
     String? token = await _secureStorage.read('token');
 
     if (token == null) {
@@ -84,6 +89,10 @@ class UserRepository {
 
   //DELETE ACCOUNT
   Future<String> deleteAccountReq() async {
+<<<<<<< HEAD
+=======
+    //id extraction from jwt token
+>>>>>>> eac32498617bbb3ead36b318cdb962caf71bad72
     String? token = await _secureStorage.read('token');
 
     if (token == null) {

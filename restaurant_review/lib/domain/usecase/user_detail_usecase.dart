@@ -6,7 +6,6 @@ class UserUseCase {
   final UserRepository userRepository;
 
   UserUseCase({required this.userRepository});
-
   Future<UserDetail> fetchUserData() async {
     final user = await userRepository.fetchUser();
     print('user in user usecase: $user');

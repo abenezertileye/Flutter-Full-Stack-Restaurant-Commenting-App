@@ -20,6 +20,7 @@ import 'package:jwt_decode/jwt_decode.dart';
 class ProfilePage extends StatelessWidget {
   final SecureStorage _secureStorage = SecureStorage.instance;
 
+<<<<<<< HEAD
   // Future<String?> _fetchUserId() async {
   //   try {
   //     String? token = await _secureStorage.read('token');
@@ -35,6 +36,8 @@ class ProfilePage extends StatelessWidget {
   // }
 
   // final userId = _fetchUserId();
+=======
+>>>>>>> eac32498617bbb3ead36b318cdb962caf71bad72
   final userUseCase = UserUseCase(userRepository: UserRepository());
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,7 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+//profile content
 class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

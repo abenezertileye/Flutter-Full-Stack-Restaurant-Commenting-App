@@ -11,7 +11,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UpdatePassword>(_onUpdatePassword);
     on<DeleteAccount>(_onDeleteAccount);
   }
-
+//request for fetching user
   void _onFetchUserRequested(
     FetchUserRequested event,
     Emitter<UserState> emit,
@@ -26,6 +26,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+//update user password
   void _onUpdatePassword(
     UpdatePassword event,
     Emitter<UserState> emit,
@@ -44,6 +45,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+//delete user account
   void _onDeleteAccount(
     DeleteAccount event,
     Emitter<UserState> emit,
