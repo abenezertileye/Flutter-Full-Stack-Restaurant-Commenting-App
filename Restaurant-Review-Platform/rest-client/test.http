@@ -159,7 +159,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU0NTA1Y
 ###BAN USER
 PATCH http://localhost:3000/admin-func/ban/res1 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU1YzQ0ODZhZDUyYmZlOTA5MzQxMjMiLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzE2ODk3NjQyLCJleHAiOjE3MTY5ODQwNDJ9.ImAZrYVOt1a_aURnzaF10ap_UqbnuGEDiVSbcx25VOk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU1YzQ0ODZhZDUyYmZlOTA5MzQxMjMiLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzE3MDcyOTg3LCJleHAiOjE3MTcxNTkzODd9.4pBXV8BNF8fmFgY3zB9SUWinEA1DdvlcvLFe71Culq0
 
 ###UNBAN USER
 PATCH http://localhost:3000/admin-func/unban/res1 HTTP/1.1

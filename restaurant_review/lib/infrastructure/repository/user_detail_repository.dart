@@ -13,10 +13,6 @@ class UserRepository {
 
 //FETCH USER DETAIL INFO
   Future<UserDetail> fetchUser() async {
-<<<<<<< HEAD
-=======
-    //jwt decoder for fetching users
->>>>>>> eac32498617bbb3ead36b318cdb962caf71bad72
     String? token = await _secureStorage.read('token');
 
     if (token == null) {
@@ -89,10 +85,6 @@ class UserRepository {
 
   //DELETE ACCOUNT
   Future<String> deleteAccountReq() async {
-<<<<<<< HEAD
-=======
-    //id extraction from jwt token
->>>>>>> eac32498617bbb3ead36b318cdb962caf71bad72
     String? token = await _secureStorage.read('token');
 
     if (token == null) {

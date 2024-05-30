@@ -19,25 +19,6 @@ import 'package:jwt_decode/jwt_decode.dart';
 
 class ProfilePage extends StatelessWidget {
   final SecureStorage _secureStorage = SecureStorage.instance;
-
-<<<<<<< HEAD
-  // Future<String?> _fetchUserId() async {
-  //   try {
-  //     String? token = await _secureStorage.read('token');
-  //     if (token != null) {
-  //       Map<String, dynamic> payload = Jwt.parseJwt(token);
-  //       print('id from token in profile page: ${payload['id']}');
-  //       return payload['id'];
-  //     }
-  //   } catch (e) {
-  //     print('Error fetching token: $e');
-  //   }
-  //   return null;
-  // }
-
-  // final userId = _fetchUserId();
-=======
->>>>>>> eac32498617bbb3ead36b318cdb962caf71bad72
   final userUseCase = UserUseCase(userRepository: UserRepository());
   @override
   Widget build(BuildContext context) {
