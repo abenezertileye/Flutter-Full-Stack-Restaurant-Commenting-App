@@ -55,13 +55,11 @@ class _LogInFormState extends State<LogInForm> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            Navigator.pushNamed(context, '/entry');
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (_) => ProfilePage(),
-            //   ),
-            // );
+            if (state.user.roles[0] == 'admin') {
+              Navigator.pushNamed(context, '/adminprofile');
+            } else {
+              Navigator.pushNamed(context, '/entry');
+            }
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),

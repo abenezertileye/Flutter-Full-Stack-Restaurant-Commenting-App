@@ -18,8 +18,8 @@ export class UsersService {
     return 'This action adds a new user';
   }
 
-  findAll() {
-    return `This action returns all users`;
+  findAll(role: string): Promise<User[]> {
+    return this.userModel.find({ roles: role }).exec();
   }
 
   async findOne(id: string): Promise<User> {

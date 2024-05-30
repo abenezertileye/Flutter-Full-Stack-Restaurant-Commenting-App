@@ -43,4 +43,30 @@ class Restaurant {
       isBanned: json['isBanned'],
     );
   }
+
+  Restaurant copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? location,
+    String? contact,
+    String? openingTime,
+    String? closingTime,
+    String? ownerId,
+    List<Comment>? comments,
+    bool? isBanned,
+  }) {
+    return Restaurant(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      contact: contact ?? this.contact,
+      openingTime: openingTime ?? this.openingTime,
+      closingTime: closingTime ?? this.closingTime,
+      ownerId: ownerId ?? this.ownerId,
+      comments: comments ?? this.comments,
+      isBanned: isBanned ?? this.isBanned,
+    );
+  }
 }

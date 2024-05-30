@@ -1,76 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_review/application/bloc/admin/admin_bloc.dart';
+import 'package:restaurant_review/application/bloc/admin/admin_event.dart';
+import 'package:restaurant_review/application/bloc/admin/admin_state.dart';
 import 'package:restaurant_review/core/theme/app_pallete.dart';
-import 'package:restaurant_review/data/users_data.dart';
-import 'package:restaurant_review/models/users_model.dart';
+import 'package:restaurant_review/infrastructure/repository/admin_repository.dart';
 import 'package:restaurant_review/presentation/widgets/users_view_for_admin.dart';
 
 class AdminTab extends StatefulWidget {
   const AdminTab({super.key});
 
   @override
-  State<AdminTab> createState() => _AdminTabState();
+  _AdminTabState createState() => _AdminTabState();
 }
 
 class _AdminTabState extends State<AdminTab> {
-  List<CustomerModel> customers = customerData;
-  List<OwnerModel> owners = ownerData;
+  late AdminBloc _adminBloc;
 
-  void toggleBanCustomers(int index, bool value) {
-    setState(() {
-      customers[index].isBanned = value;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _adminBloc = AdminBloc(adminRepository: AdminRepository());
+    _adminBloc.add(FetchUsers());
   }
 
-  void toggleBanOwners(int index, bool value) {
-    setState(() {
-      owners[index].isBanned = value;
-    });
+  void toggleBanCustomer(int index, bool value) {
+    _adminBloc.add(ToggleBanCustomer(index: index, isBanned: value));
+  }
+
+  void toggleBanOwner(int index, bool value) {
+    _adminBloc.add(ToggleBanOwner(index: index, isBanned: value));
+  }
+
+  @override
+  void dispose() {
+    _adminBloc.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Control Panel",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: AppPallete.blackColor,
+    return BlocProvider(
+      create: (_) => _adminBloc,
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              "Control Panel",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: AppPallete.blackColor,
+              ),
             ),
+            centerTitle: true,
+            bottom: const TabBar(tabs: [
+              Tab(
+                icon: Icon(Icons.person_outlined),
+                text: "Owners",
+              ),
+              Tab(
+                icon: Icon(Icons.person_outlined),
+                text: "Customers",
+              )
+            ]),
           ),
-          centerTitle: true,
-          bottom: const TabBar(tabs: [
-            Tab(
-              icon: Icon(Icons.person_outlined),
-              text: "Owners",
-            ),
-            Tab(
-              icon: Icon(Icons.person_outlined),
-              text: "Customers",
-            )
-          ]),
+          body: BlocBuilder<AdminBloc, AdminState>(
+            builder: (context, state) {
+              if (state is AdminLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is AdminError) {
+                return Center(child: Text(state.message));
+              } else if (state is AdminLoaded) {
+                return TabBarView(children: [
+                  ListView.builder(
+                    itemCount: state.owners.length,
+                    itemBuilder: (context, index) => UsersView(
+                      name: state.owners[index].name,
+                      isBanned: state.owners[index].isBanned,
+                      onChanged: (value) => toggleBanOwner(index, value),
+                    ),
+                  ),
+                  ListView.builder(
+                    itemCount: state.customers.length,
+                    itemBuilder: (context, index) => UsersView(
+                      name: state.customers[index].username,
+                      isBanned: state.customers[index].isBanned,
+                      onChanged: (value) => toggleBanCustomer(index, value),
+                    ),
+                  ),
+                ]);
+              } else {
+                return const Center(child: Text("No data"));
+              }
+            },
+          ),
         ),
-        body: TabBarView(children: [
-          ListView.builder(
-            itemCount: owners.length,
-            itemBuilder: (context, index) => UsersView(
-              name: owners[index].name,
-              isBanned: owners[index].isBanned,
-              onChanged: (value) => toggleBanOwners(index, value),
-            ),
-          ),
-          ListView.builder(
-            itemCount: customers.length,
-            itemBuilder: (context, index) => UsersView(
-              name: customers[index].name,
-              isBanned: customers[index].isBanned,
-              onChanged: (value) => toggleBanCustomers(index, value),
-            ),
-          )
-        ]),
       ),
     );
   }

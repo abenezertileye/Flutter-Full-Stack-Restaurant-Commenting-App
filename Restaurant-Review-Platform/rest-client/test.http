@@ -43,8 +43,8 @@ POST  http://localhost:3000/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "user3",
-    "password": "123456789"
+    "username": "Admin",
+    "password": "123456"
 }
 
 ###LOG IN ADMIN
@@ -123,11 +123,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU1NTg3Z
 ###CREATE COMMENT
 POST http://localhost:3000/comment HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU0NTA1YjAxMWE1ZDhmMGE4NDRjNzAiLCJ1c2VybmFtZSI6InVzZXIzIiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTY5NDAxMjksImV4cCI6MTcxNzAyNjUyOX0.eAy9Qn4JLhwZxBPPoLT5AyL64HkVBFI9iDlKh8K3qhM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU2MjdhZTc1NTE5YzVhNTkxMmZkNmEiLCJ1c2VybmFtZSI6InVzZXI1Iiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTcwNDExNDksImV4cCI6MTcxNzEyNzU0OX0.GbOlmfQ-4w-bngw6oMLFjN24XECI7_DlrL71_gup7n0
 
 {
     "restaurantId": "6656224c75519c5a5912fd4d",
-    "opinion": "lorem ipsum idh"
+    "opinion": "lorem ipsum user5"
 }
 
 
@@ -142,9 +142,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTlmMWMzO
 
 
 ###UPDATE COMMENT
-PUT http://localhost:3000/comment/65a0f300fc6dda37b902eee8 HTTP/1.1
+PUT http://localhost:3000/comment/665627ae75519c5a5912fd6a HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWEwZTI4MDZkMzk1ZTkzMTY0M2NhOWEiLCJ1c2VybmFtZSI6IkpvaG5Eb2UiLCJyb2xlcyI6WyJ1c2VyIl0sImlhdCI6MTcwNTA0NzI4NCwiZXhwIjoxNzA1MTMzNjg0fQ.hJ9C1BOsflKf1J9u0UCbgY9ytNqiYlya8bxYDm_hAck
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU2MjdhZTc1NTE5YzVhNTkxMmZkNmEiLCJ1c2VybmFtZSI6InVzZXI1Iiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTcwNDExNDksImV4cCI6MTcxNzEyNzU0OX0.GbOlmfQ-4w-bngw6oMLFjN24XECI7_DlrL71_gup7n0
 
 {
     "opinion": "This is the best chicken sandwich I have ever had"
