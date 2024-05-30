@@ -121,4 +121,8 @@ class AdminRepository {
       throw Exception('Failed to fetch owners: ${response.reasonPhrase}');
     }
   }
+
+  Future<void> logout() async {
+    await _secureStorage.delete('token');
+  }
 }

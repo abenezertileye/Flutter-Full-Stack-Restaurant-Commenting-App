@@ -237,7 +237,7 @@ class Profile extends StatelessWidget {
               margin: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [LogOut()],
+                children: [GestureDetector(child: LogOut())],
               ),
             ),
           ],
