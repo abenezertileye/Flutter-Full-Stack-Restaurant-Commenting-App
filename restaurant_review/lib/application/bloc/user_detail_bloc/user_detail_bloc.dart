@@ -6,9 +6,7 @@ import 'package:restaurant_review/domain/entities/user_entity.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserUseCase userUseCase;
-  final String userId;
-  UserBloc({required this.userUseCase, required this.userId})
-      : super(UserInitial()) {
+  UserBloc({required this.userUseCase}) : super(UserInitial()) {
     on<FetchUserRequested>(_onFetchUserRequested);
     on<UpdatePassword>(_onUpdatePassword);
     on<DeleteAccount>(_onDeleteAccount);
@@ -20,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(UserLoading());
     try {
-      final user = await userUseCase.fetchUserData(userId);
+      final user = await userUseCase.fetchUserData();
       emit(UserLoaded(user));
       print('user in user bloc: $user');
     } catch (e) {
@@ -38,9 +36,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     try {
       final message = await userUseCase.updatePassword(
-          userId: userId,
-          oldPassword: event.oldPassword,
-          newPassword: event.newPassword);
+          oldPassword: event.oldPassword, newPassword: event.newPassword);
       emit(PasswordUpdated(message));
       print('user in user bloc: $message');
     } catch (e) {
@@ -54,7 +50,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(DeletingAccount());
     try {
-      final message = await userUseCase.deleteAccount(userId);
+      final message = await userUseCase.deleteAccount();
       emit(AccountDeleted(message));
       print('user in user bloc: $message');
     } catch (e) {

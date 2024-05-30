@@ -24,12 +24,15 @@ class _AdminTabState extends State<AdminTab> {
     _adminBloc.add(FetchUsers());
   }
 
-  void toggleBanCustomer(int index, bool value) {
-    _adminBloc.add(ToggleBanCustomer(index: index, isBanned: value));
+  void toggleBanCustomer(String username, bool value) {
+    print(value);
+    _adminBloc.add(ToggleBanCustomer(username: username, isBanned: value));
   }
 
-  void toggleBanOwner(int index, bool value) {
-    _adminBloc.add(ToggleBanOwner(index: index, isBanned: value));
+  void toggleBanOwner(String username, bool value) {
+    print(value);
+
+    _adminBloc.add(ToggleBanOwner(username: username, isBanned: value));
   }
 
   @override
@@ -79,7 +82,8 @@ class _AdminTabState extends State<AdminTab> {
                     itemBuilder: (context, index) => UsersView(
                       name: state.owners[index].username,
                       isBanned: state.owners[index].isBanned,
-                      onChanged: (value) => toggleBanOwner(index, value),
+                      onChanged: (value) =>
+                          toggleBanOwner(state.owners[index].username, value),
                     ),
                   ),
                   ListView.builder(
@@ -87,7 +91,8 @@ class _AdminTabState extends State<AdminTab> {
                     itemBuilder: (context, index) => UsersView(
                       name: state.customers[index].username,
                       isBanned: state.customers[index].isBanned,
-                      onChanged: (value) => toggleBanCustomer(index, value),
+                      onChanged: (value) => toggleBanCustomer(
+                          state.customers[index].username, value),
                     ),
                   ),
                 ]);

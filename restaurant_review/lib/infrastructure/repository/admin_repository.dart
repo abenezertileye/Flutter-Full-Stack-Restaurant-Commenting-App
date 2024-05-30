@@ -10,6 +10,7 @@ class AdminRepository {
 
   final String _baseUrl = 'http://localhost:3000';
 
+//FETCH USERS OR OWNERS
   Future<List<UserDetail>> fetch(role) async {
     String? token = await _secureStorage.read('token');
 
@@ -24,10 +25,10 @@ class AdminRepository {
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body) as List<dynamic>;
-      print('response in admin repo: $responseData');
+      // print('response in admin repo: $responseData');
 
       final List<UserDetail> customers = responseData.map((data) {
-        print('Mapping data: $data');
+        // print('Mapping data: $data');
         return UserDetail.fromJson(data as Map<String, dynamic>);
       }).toList();
 
@@ -75,12 +76,36 @@ class AdminRepository {
 //     }
 //   }
 
+//BAN OWNERS OR USERS
   Future<String> ban(username) async {
     print(username);
     String? token = await _secureStorage.read('token');
 
     final response = await http.patch(
       Uri.parse('$_baseUrl/admin-func/ban/$username'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+    print('status code in admin repo: ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      print('Customer Banned Successfully');
+      return 'Customer Banned Successfully';
+    } else {
+      throw Exception('Failed to fetch owners: ${response.reasonPhrase}');
+    }
+  }
+
+//UNBAN OWNERS OR USERS
+  Future<String> unban(username) async {
+    print(username);
+    String? token = await _secureStorage.read('token');
+
+    final response = await http.patch(
+      Uri.parse('$_baseUrl/admin-func/unban/$username'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'

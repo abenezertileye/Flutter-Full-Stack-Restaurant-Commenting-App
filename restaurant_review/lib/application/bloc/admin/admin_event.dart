@@ -8,21 +8,41 @@ abstract class AdminEvent extends Equatable {
 class FetchUsers extends AdminEvent {}
 
 class ToggleBanCustomer extends AdminEvent {
+  final String username;
+  final bool isBanned;
+
+  ToggleBanCustomer({required this.username, required this.isBanned});
+
+  @override
+  List<Object> get props => [username, isBanned];
+}
+
+class ToggleUnBanCustomer extends AdminEvent {
   final int index;
   final bool isBanned;
 
-  ToggleBanCustomer({required this.index, required this.isBanned});
+  ToggleUnBanCustomer({required this.index, required this.isBanned});
 
   @override
   List<Object> get props => [index, isBanned];
 }
 
 class ToggleBanOwner extends AdminEvent {
-  final int index;
+  final String username;
   final bool isBanned;
 
-  ToggleBanOwner({required this.index, required this.isBanned});
+  ToggleBanOwner({required this.username, required this.isBanned});
 
   @override
-  List<Object> get props => [index, isBanned];
+  List<Object> get props => [username, isBanned];
+}
+
+class ToggleUnBanOwner extends AdminEvent {
+  final String username;
+  final bool isBanned;
+
+  ToggleUnBanOwner({required this.username, required this.isBanned});
+
+  @override
+  List<Object> get props => [username, isBanned];
 }

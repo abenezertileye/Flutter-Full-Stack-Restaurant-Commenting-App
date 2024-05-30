@@ -35,13 +35,12 @@ class ProfilePage extends StatelessWidget {
   // }
 
   // final userId = _fetchUserId();
-  final String userId = '6657887ce3dd71d4280fde30';
   final userUseCase = UserUseCase(userRepository: UserRepository());
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserBloc(userUseCase: userUseCase, userId: userId)
-        ..add(FetchUserRequested()),
+      create: (context) =>
+          UserBloc(userUseCase: userUseCase)..add(FetchUserRequested()),
       child: ProfileView(),
     );
   }
