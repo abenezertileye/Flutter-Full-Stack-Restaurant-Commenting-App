@@ -1,11 +1,13 @@
 // Inside the LogOut widget
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant_review/infrastructure/repository/admin_repository.dart';
 import 'package:restaurant_review/presentation/screens/login_in_page.dart';
 
 class LogOut extends StatelessWidget {
   final AdminRepository authService = AdminRepository();
+
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +15,11 @@ class LogOut extends StatelessWidget {
       onTap: () {
         // Call the logout method
         authService.logout();
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Log out successful")),
+          );
         // Navigate back to the login page
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => LogInPage(),
-          ),
-        );
+        context.go('/login');
       },
       child: Center(
         child: Row(

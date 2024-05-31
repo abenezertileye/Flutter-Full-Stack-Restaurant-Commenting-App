@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant_review/core/theme/app_pallete.dart';
 import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
 import 'package:restaurant_review/presentation/screens/Profile_page.dart';
@@ -56,9 +57,9 @@ class _LogInFormState extends State<LogInForm> {
         listener: (context, state) {
           if (state is AuthSuccess) {
             if (state.user.roles[0] == 'admin') {
-              Navigator.pushNamed(context, '/adminprofile');
+              context.go('/adminprofile');
             } else {
-              Navigator.pushNamed(context, '/entry');
+              context.go('/home');
             }
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -115,10 +116,7 @@ class _LogInFormState extends State<LogInForm> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      SignUpPage.route(),
-                    );
+                    context.go('/signup');
                   },
                   child: RichText(
                     text: TextSpan(

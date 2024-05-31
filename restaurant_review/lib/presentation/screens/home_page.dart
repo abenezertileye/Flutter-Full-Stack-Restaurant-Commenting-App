@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant_review/presentation/widgets/restaurant.dart';
 // import '/models/restaurant_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,13 +87,9 @@ class RestaurantGrid extends StatelessWidget {
                   chipsList: ["Fast Food"],
                 ),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          RestaurantPage(restaurantId: restaurant['_id']),
-                    ),
-                  );
+                  context.goNamed('/restaurantpage', pathParameters: {
+              'id': restaurant["_id"],
+            });
                   // Navigator.pushNamed(context, '/restaurantpage');
                 },
               );

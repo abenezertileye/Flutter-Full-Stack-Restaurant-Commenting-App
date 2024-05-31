@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant_review/application/bloc/user_detail_bloc/user_detail_event.dart';
 import 'package:restaurant_review/application/bloc/user_detail_bloc/user_detail_bloc.dart';
+import 'package:restaurant_review/presentation/screens/bottom_nav.dart';
 import 'package:restaurant_review/presentation/screens/modal_form.dart';
 import 'package:restaurant_review/presentation/screens/home_page.dart';
 import 'package:restaurant_review/domain/usecase/user_detail_usecase.dart';
@@ -41,37 +43,26 @@ class ProfileView extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ReviewHome(),
-            ),
-          );
+          context.read<UserBloc>().add(FetchUserRequested());
+          
         }
         if (state is AccountDeleted) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => SignUpPage(),
-            ),
-          );
+          context.go('/signup');
+          
         }
         if (state is UserError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
+
           );
+
         }
 
         if (state is PasswordUpdated) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ReviewHome(),
-            ),
-          );
+          context.read<UserBloc>().add(FetchUserRequested());
         }
       },
       child: BlocBuilder<UserBloc, UserState>(
