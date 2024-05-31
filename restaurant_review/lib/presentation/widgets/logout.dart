@@ -15,6 +15,9 @@ class LogOut extends StatelessWidget {
       onTap: () {
         // Call the logout method
         authService.logout();
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Log out successful")),
+          );
         // Navigate back to the login page
         context.go('/login');
       },

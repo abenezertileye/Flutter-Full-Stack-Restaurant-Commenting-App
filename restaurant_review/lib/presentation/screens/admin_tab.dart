@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant_review/application/bloc/admin/admin_bloc.dart';
 import 'package:restaurant_review/application/bloc/admin/admin_event.dart';
 import 'package:restaurant_review/application/bloc/admin/admin_state.dart';
 import 'package:restaurant_review/core/theme/app_pallete.dart';
 import 'package:restaurant_review/infrastructure/repository/admin_repository.dart';
+import 'package:restaurant_review/presentation/widgets/logout.dart';
 import 'package:restaurant_review/presentation/widgets/users_view_for_admin.dart';
 
 class AdminTab extends StatefulWidget {
@@ -16,6 +18,7 @@ class AdminTab extends StatefulWidget {
 
 class _AdminTabState extends State<AdminTab> {
   late AdminBloc _adminBloc;
+  final AdminRepository authService = AdminRepository();
 
   @override
   void initState() {
@@ -49,6 +52,22 @@ class _AdminTabState extends State<AdminTab> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: GestureDetector(
+                  child: Icon(Icons.logout),
+                  onTap: () {
+                    authService.logout();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Log out successful")),
+                    );
+                    // Navigate back to the login page
+                    context.go('/login');
+                  },
+                ),
+              )
+            ],
             title: const Text(
               "Control Panel",
               style: TextStyle(
