@@ -6,6 +6,7 @@ import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class UserRepository {
+  //jwt decoder for user detail entities
   final SecureStorage _secureStorage = SecureStorage.instance;
 
   final String _baseUrl = 'http://localhost:3000';
