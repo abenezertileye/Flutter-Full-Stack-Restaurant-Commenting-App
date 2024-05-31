@@ -13,6 +13,7 @@ class UserRepository {
 
 //FETCH USER DETAIL INFO
   Future<UserDetail> fetchUser() async {
+    //jwt decoder for fetching users
     String? token = await _secureStorage.read('token');
 
     if (token == null) {
