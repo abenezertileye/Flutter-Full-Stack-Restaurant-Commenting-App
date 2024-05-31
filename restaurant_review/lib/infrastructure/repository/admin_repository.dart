@@ -4,11 +4,12 @@ import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
 import 'package:restaurant_review/domain/entities/restaurant_entity.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
 import 'package:restaurant_review/data/storage.dart';
+import 'package:restaurant_review/url.dart';
 
 class AdminRepository {
   final SecureStorage _secureStorage = SecureStorage.instance;
 
-  final String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = Domain.url;
 
 //FETCH USERS OR OWNERS
   Future<List<UserDetail>> fetch(role) async {

@@ -4,12 +4,13 @@ import 'package:restaurant_review/infrastructure/repository/restaurants_reposito
 import 'package:restaurant_review/data/storage.dart';
 import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:restaurant_review/url.dart';
 
 class UserRepository {
   //jwt decoder for user detail entities
   final SecureStorage _secureStorage = SecureStorage.instance;
 
-  final String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = Domain.url;
 
 //FETCH USER DETAIL INFO
   Future<UserDetail> fetchUser() async {

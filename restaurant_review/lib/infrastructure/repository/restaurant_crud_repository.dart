@@ -5,11 +5,12 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:restaurant_review/data/storage.dart';
 import 'package:restaurant_review/domain/entities/create_restaurant_entity.dart';
 import 'package:restaurant_review/domain/entities/update_restaurant_entity.dart';
+import 'package:restaurant_review/url.dart';
 
 class RestaurantCrudRepository {
   final SecureStorage _secureStorage = SecureStorage.instance;
 
-  final String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = Domain.url;
 
   Future<http.Response> checkOwnerRestaurant() async {
     String? token = await _secureStorage.read('token');

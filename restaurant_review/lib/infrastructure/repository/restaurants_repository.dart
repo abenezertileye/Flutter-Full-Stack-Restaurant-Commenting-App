@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
 import 'package:restaurant_review/data/storage.dart';
+import 'package:restaurant_review/url.dart';
 
 class RestaurantsRepository {
   final SecureStorage _secureStorage = SecureStorage.instance;
 
-  final String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = Domain.url;
 //FETCH ALL RESTAURATS
   Future<List<dynamic>> FetchRestaurants() async {
     String? token = await _secureStorage.read('token');

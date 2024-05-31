@@ -3,12 +3,13 @@ import 'package:http/http.dart' as http;
 import 'package:restaurant_review/models/user_types.dart';
 import 'package:restaurant_review/domain/entities/user_entity.dart';
 import 'package:restaurant_review/data/storage.dart';
+import 'package:restaurant_review/url.dart';
 
 class AuthRepository {
   //instantiate everytime you need the token
   final SecureStorage _secureStorage = SecureStorage.instance;
 
-  final String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = Domain.url;
 
   Future<User> signUp({
     required String username,

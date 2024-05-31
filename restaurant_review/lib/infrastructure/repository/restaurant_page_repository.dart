@@ -4,11 +4,12 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:restaurant_review/domain/entities/restaurant_entity.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
 import 'package:restaurant_review/data/storage.dart';
+import 'package:restaurant_review/url.dart';
 
 class RestaurantPageRepository {
   final SecureStorage _secureStorage = SecureStorage.instance;
 
-  final String _baseUrl = 'http://localhost:3000';
+  final String _baseUrl = Domain.url;
 
 //GET RESTAURANT
   Future<Restaurant> FetchRestaurantData(restaurantId) async {
