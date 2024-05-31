@@ -20,6 +20,7 @@ class UserUseCase {
     return message;
   }
 
+//delete account
   Future<String> deleteAccount() async {
     final message = await userRepository.deleteAccountReq();
     return message;
