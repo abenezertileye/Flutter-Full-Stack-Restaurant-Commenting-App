@@ -37,6 +37,17 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
+        if (state is UsernameUpdated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ReviewHome(),
+            ),
+          );
+        }
         if (state is AccountDeleted) {
           Navigator.push(
             context,
@@ -121,6 +132,7 @@ class Profile extends StatelessWidget {
   Profile({required this.user});
   final oldPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
+  final newUsernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +185,34 @@ class Profile extends StatelessWidget {
                     fontSize: 15),
               ),
             ),
+            ExpansionBar(
+                title: 'Change Username',
+                children: Container(
+                  padding: EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Textfields(
+                          subtitles: 'Enter New Username',
+                          controller: newUsernameController),
+                    ],
+                  ),
+                ),
+                childOfButton1: 'Save Changes',
+                childOfButton2: 'Cancel',
+                buttonBackgroundColor: Color.fromARGB(255, 255, 115, 0),
+                onButton1Pressed: () {
+                  final newUsername = newUsernameController.text;
+                  BlocProvider.of<UserBloc>(context).add(
+                    UpdateUsername(
+                      username: newUsername,
+                    ),
+                  );
+                },
+                onButton2Pressed: () {
+                  print('cancel clicked');
+                  ;
+                }),
             ExpansionBar(
                 title: 'Change Password',
                 children: Container(
