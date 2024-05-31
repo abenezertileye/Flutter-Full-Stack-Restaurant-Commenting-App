@@ -9,6 +9,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc({required this.userUseCase}) : super(UserInitial()) {
     on<FetchUserRequested>(_onFetchUserRequested);
     on<UpdatePassword>(_onUpdatePassword);
+    on<UpdateUsername>(_onUpdateUsername);
     on<DeleteAccount>(_onDeleteAccount);
   }
 //request for fetching user
@@ -40,6 +41,24 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           oldPassword: event.oldPassword, newPassword: event.newPassword);
       emit(PasswordUpdated(message));
       print('user in user bloc: $message');
+    } catch (e) {
+      emit(UserError('Failed to fetch user data: $e'));
+    }
+  }
+
+//update username
+  void _onUpdateUsername(
+    UpdateUsername event,
+    Emitter<UserState> emit,
+  ) async {
+    emit(UsernameUpdating());
+    print('newusername in user bloc: ${event.username}');
+
+    try {
+      final message =
+          await userUseCase.updateUsername(username: event.username);
+      emit(UsernameUpdated(message));
+      print('newusername in user bloc: $message');
     } catch (e) {
       emit(UserError('Failed to fetch user data: $e'));
     }
