@@ -11,6 +11,8 @@ import 'package:restaurant_review/presentation/screens/bottom_nav.dart';
 import 'package:restaurant_review/presentation/screens/home_page.dart';
 import 'package:restaurant_review/presentation/screens/search_page.dart';
 import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
+import 'package:restaurant_review/application/bloc/create_restaurant_bloc/restaurant_curd_bloc.dart';
+import 'package:restaurant_review/infrastructure/repository/restaurant_crud_repository.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final restaurantPageRepository = RestaurantPageRepository();
+    final restaurantCrudRepository = RestaurantCrudRepository();
     final restaurantPageUseCase = RestaurantPageUseCase(
         restaurantPageRepository: restaurantPageRepository);
     return MultiBlocProvider(
@@ -32,6 +35,8 @@ class MyApp extends StatelessWidget {
             restaurantPageUseCase: restaurantPageUseCase,
           ),
         ),
+
+        
         // Add other providers here if needed
       ],
       child: MaterialApp(
