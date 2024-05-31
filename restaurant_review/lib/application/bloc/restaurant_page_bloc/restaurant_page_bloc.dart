@@ -32,28 +32,15 @@ class RestaurantPageBloc
   void _onCreateCommentButtonPressed(CreateCommentButtonPressed event,
       Emitter<RestaurantPageState> emit) async {
     emit(CreateCommentLoading());
-    print('loading');
-    print('UpdateCommentLoading in bloc, opinion: ${event.opinion}');
+    print('create comment loading');
+    print('create Comment loading in bloc, opinion: ${event.opinion}');
+    print('create Comment loading in bloc, restId:  ${event.restId}');
     try {
-      final confirmation =
-          await restaurantPageUseCase.createComment(opinion: event.opinion);
+      final confirmation = await restaurantPageUseCase.createComment(
+          opinion: event.opinion, restId: event.restId);
       emit(CreateCommentLoaded(confirmation));
     } catch (error) {
       emit(CreateCommentError('Failed create comment: $error'));
-    }
-  }
-
-  void _onDeleteCommentButtonPressed(DeleteCommentButtonPressed event,
-      Emitter<RestaurantPageState> emit) async {
-    emit(DeleteCommentLoading());
-    print('DeleteCommentLoading in bloc, Delete: ${event.commentId}');
-    try {
-      final confirmation =
-          await restaurantPageUseCase.deleteComment(commentId: event.commentId);
-      emit(DeleteCommentLoaded(confirmation));
-      print('comment delted');
-    } catch (error) {
-      emit(DeleteCommentError('Failed to delete comment: $error'));
     }
   }
 
@@ -68,6 +55,20 @@ class RestaurantPageBloc
       emit(UpdateCommentLoaded(updateConfirmation));
     } catch (error) {
       emit(UpdateCommentError('Failed to fetch restaurant details: $error'));
+    }
+  }
+
+  void _onDeleteCommentButtonPressed(DeleteCommentButtonPressed event,
+      Emitter<RestaurantPageState> emit) async {
+    emit(DeleteCommentLoading());
+    print('DeleteCommentLoading in bloc, Delete: ${event.commentId}');
+    try {
+      final confirmation =
+          await restaurantPageUseCase.deleteComment(commentId: event.commentId);
+      emit(DeleteCommentLoaded(confirmation));
+      print('comment delted');
+    } catch (error) {
+      emit(DeleteCommentError('Failed to delete comment: $error'));
     }
   }
 }

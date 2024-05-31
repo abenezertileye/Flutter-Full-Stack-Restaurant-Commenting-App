@@ -18,9 +18,13 @@ class RestaurantPageUseCase {
   }
 
 //CREATE COMMENT
-  Future<String> createComment({required String opinion}) async {
+  Future<String> createComment(
+      {required String opinion, required String restId}) async {
+    print('comment in usecase, opinion: ${opinion}');
+    print('comment in usecase, restId: ${restId}');
+
     final confirmation =
-        await restaurantPageRepository.createCommentRepo(opinion);
+        await restaurantPageRepository.createCommentRepo(opinion, restId);
     return confirmation;
   }
 

@@ -23,7 +23,7 @@ class RestaurantPageRepository {
     print('fetching restaurant data: ${response.statusCode}');
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      print('responseData in restaurant repo: $responseData');
+      // print('responseData in restaurant repo: $responseData');
       final restaurant = Restaurant.fromJson(responseData);
       print(
           'restaurant comments in restaurant page repository: ${restaurant.comments}');
@@ -34,19 +34,24 @@ class RestaurantPageRepository {
   }
 
 //CREATE COMMENT
-  Future<String> createCommentRepo(opinion) async {
+  Future<String> createCommentRepo(opinion, restId) async {
+    print('comment in repo, restId: ${restId}');
+
     String? token = await _secureStorage.read('token');
 
-    final response = await http
-        .post(Uri.parse('$_baseUrl/comment'), headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': 'Bearer $token'
-    }, body: <String, String>{
-      opinion: opinion
-    });
-
-    print('status code in rest page repo: ${response.statusCode}');
-    if (response.statusCode == 200) {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/comment'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode({
+        'restaurantId': restId,
+        'opinion': opinion,
+      }),
+    );
+    print('create comment status code: ${response.statusCode}');
+    if (response.statusCode == 201) {
       final confirmation = 'Comment Updated Successfully';
       return confirmation;
     } else {
@@ -82,17 +87,16 @@ class RestaurantPageRepository {
     String? token = await _secureStorage.read('token');
 
     print('$_baseUrl/comment/$commentId');
-    final response = await http.patch(Uri.parse('$_baseUrl/comment/$commentId'),
+    final response = await http.put(Uri.parse('$_baseUrl/comment/$commentId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token'
         },
-        body: <String, String>{
-          opinion: opinion
-        });
+        body: jsonEncode({"opinion": opinion}));
 
     print(
         'update comment status code in rest page repo: ${response.statusCode}');
+    print('updated comment rest page repo: ${response.body}');
     if (response.statusCode == 200) {
       final confirmation = 'Comment Updated Successfully';
       return confirmation;

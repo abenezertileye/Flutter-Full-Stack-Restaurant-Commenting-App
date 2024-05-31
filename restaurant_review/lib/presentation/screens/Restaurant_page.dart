@@ -20,17 +20,17 @@ class RestaurantPage extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-  void createNewComment(BuildContext context) {
+  void createNewComment(BuildContext context, String restId) {
     final TextEditingController _controller = TextEditingController();
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext dialogContext) {
         return DialogBox(
           controller: _controller,
           onCancel: () => cancelTask(context),
           onSave: (opinion) {
             BlocProvider.of<RestaurantPageBloc>(context).add(
-              CreateCommentButtonPressed(opinion: opinion),
+              CreateCommentButtonPressed(opinion: opinion, restId: restId),
             );
           },
         );
@@ -50,16 +50,43 @@ class RestaurantPage extends StatelessWidget {
             restaurantPageUseCase: restaurantPageUseCase)
           ..add(FetchRestaurantDetails(restaurantId)),
         child: Scaffold(
-          body: BlocBuilder<RestaurantPageBloc, RestaurantPageState>(
+          body: BlocConsumer<RestaurantPageBloc, RestaurantPageState>(
+            listener: (context, state) {
+              if (state is DeleteCommentError) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to delete comment')));
+                });
+              } else if (state is DeleteCommentLoaded) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Successfully deleted comment')));
+                });
+              } else if (state is CreateCommentLoaded) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Successfully created comment')));
+                });
+              } else if (state is CreateCommentError) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to create comment')));
+                });
+              }
+            },
             builder: (context, state) {
-              if (state is RestaurantPageLoading) {
+              if (state is RestaurantPageLoading ||
+                  state is CreateCommentLoading) {
                 return Center(child: CircularProgressIndicator());
+              } else if (state is RestaurantPageError) {
+                return Center(child: Text(state.message));
               } else if (state is RestaurantPageLoaded) {
                 final restaurant = state.restaurant;
                 print(
                     'restaurant data in restaurant profile page: $restaurant');
                 print(
                     'comment in restaurant profile page: ${restaurant.comments}');
+
                 return SizedBox(
                   height: 1000,
                   child: SingleChildScrollView(
@@ -236,41 +263,42 @@ class RestaurantPage extends StatelessWidget {
                     ),
                   ),
                 );
-              } else if (state is RestaurantPageError) {
-                return Center(child: Text(state.message));
-              } else if (state is DeleteCommentError) {
-                return PopUp(
-                  message: state.error,
-                );
-              } else if (state is DeleteCommentLoaded) {
-                return PopUp(
-                  message: state.confirmation,
-                );
               } else {
-                return Center(child: Text("No data"));
+                return Container();
               }
+              // return SnackBar(content: Text('data'));
             },
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => createNewComment(context),
-            shape: const CircleBorder(),
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    Color.fromARGB(255, 255, 189, 74),
-                    Color.fromARGB(255, 248, 157, 72),
-                  ],
-                ),
-              ),
-              child: const Icon(
-                Icons.add,
-                size: 40,
-              ),
-            ),
+          floatingActionButton:
+              BlocBuilder<RestaurantPageBloc, RestaurantPageState>(
+            builder: (context, state) {
+              if (state is RestaurantPageLoaded) {
+                return FloatingActionButton(
+                  onPressed: () =>
+                      createNewComment(context, state.restaurant.id),
+                  shape: const CircleBorder(),
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          Color.fromARGB(255, 255, 189, 74),
+                          Color.fromARGB(255, 248, 157, 72),
+                        ],
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      size: 40,
+                    ),
+                  ),
+                );
+              } else {
+                return SizedBox.shrink(); // or any other placeholder widget
+              }
+            },
           ),
         ));
   }

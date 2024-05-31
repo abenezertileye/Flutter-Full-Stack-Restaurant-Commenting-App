@@ -8,8 +8,9 @@ class FetchRestaurantDetails extends RestaurantPageEvent {
 
 class CreateCommentButtonPressed extends RestaurantPageEvent {
   final String opinion;
+  final String restId;
 
-  CreateCommentButtonPressed({required this.opinion});
+  CreateCommentButtonPressed({required this.opinion, required this.restId});
 }
 
 class DeleteCommentButtonPressed extends RestaurantPageEvent {
