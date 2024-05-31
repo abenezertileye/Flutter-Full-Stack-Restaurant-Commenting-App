@@ -19,6 +19,11 @@ class UserUseCase {
     return message;
   }
 
+  Future<String> updateUsername({required String username}) async {
+    final message = await userRepository.updateUsernameReq(username: username);
+    return message;
+  }
+
   Future<String> deleteAccount() async {
     final message = await userRepository.deleteAccountReq();
     return message;

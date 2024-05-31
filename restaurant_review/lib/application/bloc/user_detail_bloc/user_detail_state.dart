@@ -24,6 +24,14 @@ class UserError extends UserState {
 }
 //state for password update
 
+class UsernameUpdating extends UserState {}
+
+class UsernameUpdated extends UserState {
+  final String message;
+
+  UsernameUpdated(this.message);
+}
+
 class PasswordUpdating extends UserState {}
 
 class PasswordUpdated extends UserState {
