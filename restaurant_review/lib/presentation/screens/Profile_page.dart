@@ -9,6 +9,7 @@ import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
 import 'package:restaurant_review/infrastructure/repository/user_detail_repository.dart';
 import 'package:restaurant_review/application/bloc/user_detail_bloc/user_detail_state.dart';
 import 'package:restaurant_review/domain/entities/user_entity.dart';
+import 'package:restaurant_review/presentation/screens/restaurant_crud.dart';
 import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
 import '../widgets/text_fields.dart';
 import '../widgets/logout.dart';
@@ -94,7 +95,7 @@ class ProfileView extends StatelessWidget {
                 body: TabBarView(
                   children: [
                     Profile(user: user),
-                    if (user.roles[0] == 'owner') Modal(),
+                    if (user.roles[0] == 'owner') RestaurantCrud(),
                   ],
                 ),
               ),
@@ -191,7 +192,7 @@ class Profile extends StatelessWidget {
                 childOfButton1: 'Save Changes',
                 childOfButton2: 'Cancel',
                 buttonBackgroundColor: Color.fromARGB(255, 255, 115, 0),
-                save: () {
+                onButton1Pressed: () {
                   final oldPassword = oldPasswordController.text;
                   final newPassword = newPasswordController.text;
                   BlocProvider.of<UserBloc>(context).add(
@@ -201,7 +202,7 @@ class Profile extends StatelessWidget {
                     ),
                   );
                 },
-                cancel: () {
+                onButton2Pressed: () {
                   print('cancel clicked');
                   ;
                 }),
@@ -222,13 +223,13 @@ class Profile extends StatelessWidget {
                   childOfButton1: 'Confirm',
                   childOfButton2: 'Cancel',
                   buttonBackgroundColor: Colors.red,
-                  save: () {
+                  onButton1Pressed: () {
                     BlocProvider.of<UserBloc>(context).add(
                       DeleteAccount(),
                     );
                     ;
                   },
-                  cancel: () {
+                  onButton2Pressed: () {
                     print('cancel clicked');
                     ;
                   }),

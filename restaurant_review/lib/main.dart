@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restaurant_review/application/bloc/restaurant_crud_bloc/restaurant_crud_bloc.dart';
 import 'package:restaurant_review/application/bloc/restaurant_page_bloc/restaurant_page_bloc.dart';
 import 'package:restaurant_review/core/theme/theme.dart';
+import 'package:restaurant_review/domain/usecase/restaurant_crud_usecase.dart';
 import 'package:restaurant_review/domain/usecase/restaurant_page_usecase.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurant_page_repository.dart';
 import 'package:restaurant_review/presentation/screens/Profile_page.dart';
@@ -11,7 +13,6 @@ import 'package:restaurant_review/presentation/screens/bottom_nav.dart';
 import 'package:restaurant_review/presentation/screens/home_page.dart';
 import 'package:restaurant_review/presentation/screens/search_page.dart';
 import 'package:restaurant_review/presentation/screens/sign_up_page.dart';
-import 'package:restaurant_review/application/bloc/create_restaurant_bloc/restaurant_curd_bloc.dart';
 import 'package:restaurant_review/infrastructure/repository/restaurant_crud_repository.dart';
 
 void main() {
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
     final restaurantCrudRepository = RestaurantCrudRepository();
     final restaurantPageUseCase = RestaurantPageUseCase(
         restaurantPageRepository: restaurantPageRepository);
+
+    final restaurantCrudUsecase = RestaurantCrudUsecase(restaurantCrudRepository);
     return MultiBlocProvider(
       providers: [
         BlocProvider<RestaurantPageBloc>(
@@ -35,6 +38,8 @@ class MyApp extends StatelessWidget {
             restaurantPageUseCase: restaurantPageUseCase,
           ),
         ),
+
+        BlocProvider<RestaurantCrudBloc>(create: (context) => RestaurantCrudBloc(restaurantCrudUsecase),)
 
         
         // Add other providers here if needed

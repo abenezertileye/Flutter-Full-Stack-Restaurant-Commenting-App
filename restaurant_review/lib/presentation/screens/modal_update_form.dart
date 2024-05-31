@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_review/application/bloc/restaurant_crud_bloc/restaurant_crud_bloc.dart';
 import 'package:restaurant_review/application/bloc/restaurant_crud_bloc/restaurant_crud_event.dart';
-import 'package:restaurant_review/domain/entities/create_restaurant_entity.dart';
+import 'package:restaurant_review/domain/entities/update_restaurant_entity.dart';
 import 'package:restaurant_review/presentation/widgets/modal_form_text_field.dart';
 
-class Modal extends StatefulWidget {
-  const Modal({Key? key}) : super(key: key);
+class UpdateModal extends StatefulWidget {
+  const UpdateModal({Key? key}) : super(key: key);
 
   @override
-  _ModalState createState() => _ModalState();
+  _UpdateModalState createState() => _UpdateModalState();
 }
 
-class _ModalState extends State<Modal> {
+class _UpdateModalState extends State<UpdateModal> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -33,26 +33,41 @@ class _ModalState extends State<Modal> {
   }
 
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      final restaurant = CreateRestaurantDTO(
-        name: _nameController.text,
-        location: _addressController.text,
-        openingTime: _openingHoursController.text,
-        closingTime: _closingHoursController.text,
-        description: _descriptionController.text,
-        contact: _contactController.text,
-      );
+    print("Edit submit pressed");
+    final Map<String, dynamic> updates = {};
+    print("cont ${_addressController.text}");
 
-      context.read<RestaurantCrudBloc>().add(CreateRestaurantRequested(restaurant));
+    if (_nameController.text.isNotEmpty) {
+      updates['name'] = _nameController.text;
+    }
+    if (_addressController.text.isNotEmpty) {
+      updates['location'] = _addressController.text;
+    }
+    if (_openingHoursController.text.isNotEmpty) {
+      updates['openingTime'] = _openingHoursController.text;
+    }
+    if (_closingHoursController.text.isNotEmpty) {
+      updates['closingTime'] = _closingHoursController.text;
+    }
+    if (_descriptionController.text.isNotEmpty) {
+      updates['description'] = _descriptionController.text;
+    }
+    if (_contactController.text.isNotEmpty) {
+      updates['contact'] = _contactController.text;
+    }
+
+    if (updates.isNotEmpty) {
+      final restaurant = UpdateRestaurantDTO.fromJson(updates);
+      print("res $restaurant");
+
+      context.read<RestaurantCrudBloc>().add(UpdateRestaurantRequested(restaurant));
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Successfully created a restaurant.')),
+        SnackBar(content: Text('Successfully updated restaurant details.')),
       );
       Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in all required fields'),
-        ),
+        SnackBar(content: Text('No changes to update.')),
       );
     }
   }

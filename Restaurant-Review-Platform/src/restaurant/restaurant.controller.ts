@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -57,7 +58,7 @@ export class RestaurantController {
     return this.restaurantService.createRestaurant(createRestaurantDto);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(UserRole.OWNER)
   async updateRestaurant(
@@ -81,4 +82,14 @@ export class RestaurantController {
   ): Promise<Restaurant> {
     return this.restaurantService.removeRestaurant(id, request.user['sub']);
   }
+
+    // Get restaurants by owner
+    @Get('owner/:ownerId')
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(UserRole.OWNER)
+    async getRestaurantsByOwner(
+      @Param('ownerId') ownerId: string,
+    ): Promise<Restaurant> {
+      return this.restaurantService.getRestaurantsByOwner(ownerId);
+    }
 }
