@@ -20,7 +20,7 @@ class UserTile extends StatelessWidget {
     return Container(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: AssetImage('assets/image/default_profile.jpg'),
+          backgroundImage: AssetImage('assets/images/default_profile.jpg'),
           radius: 20,
         ),
         title: Text(
