@@ -7,23 +7,21 @@ class UserUseCase {
 
   UserUseCase({required this.userRepository});
 
-  Future<UserDetail> fetchUserData(userId) async {
-    final user = await userRepository.fetchUser(userId);
+  Future<UserDetail> fetchUserData() async {
+    final user = await userRepository.fetchUser();
     print('user in user usecase: $user');
     return user;
   }
 
   Future<String> updatePassword(
-      {required String userId,
-      required String oldPassword,
-      required String newPassword}) async {
+      {required String oldPassword, required String newPassword}) async {
     final message = await userRepository.updatePasswordReq(
-        userId: userId, oldPassword: oldPassword, newPassword: newPassword);
+        oldPassword: oldPassword, newPassword: newPassword);
     return message;
   }
 
-  Future<String> deleteAccount(userId) async {
-    final message = await userRepository.deleteAccountReq(userId);
+  Future<String> deleteAccount() async {
+    final message = await userRepository.deleteAccountReq();
     return message;
   }
 }

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:restaurant_review/infrastructure/repository/restaurants_repository.dart';
 import 'package:restaurant_review/data/storage.dart';
 import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class UserRepository {
   final SecureStorage _secureStorage = SecureStorage.instance;
@@ -10,8 +11,16 @@ class UserRepository {
   final String _baseUrl = 'http://localhost:3000';
 
 //FETCH USER DETAIL INFO
-  Future<UserDetail> fetchUser(userId) async {
+  Future<UserDetail> fetchUser() async {
     String? token = await _secureStorage.read('token');
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    // Decode the token to get the user ID (sub)
+    Map<String, dynamic> payload = JwtDecoder.decode(token);
+    String userId = payload['sub'];
 
     final response = await http.get(
       Uri.parse('$_baseUrl/users/$userId'),
@@ -35,13 +44,21 @@ class UserRepository {
 
   //UPDATE PASSWORD
   Future<String> updatePasswordReq({
-    required userId,
     required String oldPassword,
     required String newPassword,
   }) async {
     print('oldPassword: $oldPassword, newPassword: $newPassword');
 
     String? token = await _secureStorage.read('token');
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    // Decode the token to get the user ID (sub)
+    Map<String, dynamic> payload = JwtDecoder.decode(token);
+    String userId = payload['sub'];
+
     try {
       final response = await http.patch(
           Uri.parse('$_baseUrl/users/changePassword/$userId'),
@@ -66,8 +83,16 @@ class UserRepository {
   }
 
   //DELETE ACCOUNT
-  Future<String> deleteAccountReq(userId) async {
+  Future<String> deleteAccountReq() async {
     String? token = await _secureStorage.read('token');
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    // Decode the token to get the user ID (sub)
+    Map<String, dynamic> payload = JwtDecoder.decode(token);
+    String userId = payload['sub'];
 
     final response = await http.delete(
       Uri.parse('$_baseUrl/users/$userId'),
