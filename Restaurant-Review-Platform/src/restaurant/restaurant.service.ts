@@ -88,4 +88,16 @@ export class RestaurantService {
     await this.restaurantModel.findByIdAndDelete(id).exec();
     return tobeRemoved;
   }
+
+    // Get all restaurants by owner
+    async getRestaurantsByOwner(ownerId: string): Promise<Restaurant> {
+      const restaurants = await this.restaurantModel
+        .findOne({ ownerId })
+        .populate('comments')
+        .exec();
+      if (restaurants) {
+      return restaurants;} else{
+        return new Restaurant();
+      }
+    }
 }
