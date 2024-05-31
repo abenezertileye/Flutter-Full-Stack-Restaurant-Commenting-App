@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurant_review/core/theme/app_pallete.dart';
 import 'package:restaurant_review/presentation/screens/login_in_page.dart';
 import 'package:restaurant_review/presentation/widgets/auth_field.dart';
@@ -45,12 +46,7 @@ class SignUpForm extends StatelessWidget {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => LogInPage(),
-              ),
-            );
+            context.go('/login');
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -157,7 +153,7 @@ class SignUpForm extends StatelessWidget {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, LogInPage.route());
+                      context.go('/login');
                     },
                     child: RichText(
                       text: TextSpan(

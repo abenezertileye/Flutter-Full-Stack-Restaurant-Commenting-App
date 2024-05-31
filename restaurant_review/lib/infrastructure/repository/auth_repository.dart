@@ -66,4 +66,7 @@ class AuthRepository {
       throw Exception('Failed to log in: ${response.reasonPhrase}');
     }
   }
+  Future<void> logout() async {
+    await _secureStorage.delete('token');
+  }
 }
