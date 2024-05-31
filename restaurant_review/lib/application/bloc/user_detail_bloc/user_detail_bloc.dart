@@ -44,6 +44,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+//delete user account
   void _onDeleteAccount(
     DeleteAccount event,
     Emitter<UserState> emit,
