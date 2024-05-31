@@ -26,6 +26,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
+//update user password
   void _onUpdatePassword(
     UpdatePassword event,
     Emitter<UserState> emit,
