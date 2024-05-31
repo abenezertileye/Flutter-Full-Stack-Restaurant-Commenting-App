@@ -86,6 +86,7 @@ class UserRepository {
 
   //DELETE ACCOUNT
   Future<String> deleteAccountReq() async {
+    //id extraction from jwt token
     String? token = await _secureStorage.read('token');
 
     if (token == null) {
