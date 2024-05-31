@@ -1,9 +1,7 @@
-// restaurant_crud.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restaurant_review/application/bloc/create_restaurant_bloc/restaurant_curd_bloc.dart';
-import 'package:restaurant_review/application/restaurant/restaurant_event.dart';
-import 'package:restaurant_review/application/restaurant/restaurant_state.dart';
+import 'package:restaurant_review/application/bloc/restaurant_crud_bloc/restaurant_crud_bloc.dart';
+import 'package:restaurant_review/application/bloc/restaurant_crud_bloc/restaurant_crud_event.dart';
 import 'package:restaurant_review/presentation/screens/modal_form.dart';
 import 'package:restaurant_review/presentation/screens/modal_update_form.dart';
 import 'package:restaurant_review/presentation/widgets/Expansion_bar.dart';
@@ -34,7 +32,7 @@ class RestaurantCrud extends StatelessWidget {
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      builder: (context) => UpdateModal(),
+                      builder: (context) => const UpdateModal(),
                     );
                   },
                   child: const Text('Edit Restaurant'),
@@ -49,18 +47,15 @@ class RestaurantCrud extends StatelessWidget {
                   children: [
                     const SizedBox(width: 15),
                     const Expanded(
-                      child: Text(
-                          'Are you sure you want to delete your restaurant?'),
+                      child: Text('Are you sure you want to delete your restaurant?'),
                     ),
                   ],
                 ),
-               
                 childOfButton1: 'Confirm',
                 childOfButton2: 'Cancel',
                 buttonBackgroundColor: Colors.red,
                 onButton1Pressed: () {
-                  BlocProvider.of<RestaurantBloc>(context)
-                      .add(DeleteRestaurantRequested());
+                  context.read<RestaurantCrudBloc>().add(DeleteRestaurantRequested());
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Restaurant deleted')),
                   );
