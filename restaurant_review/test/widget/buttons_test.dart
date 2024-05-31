@@ -16,7 +16,6 @@ void main() {
           body: Buttons(
             text: testButtonText,
             backgroundColor: testButtonColor,
-            onpressed: () {}, // Provide the onPressed callback
           ),
         ),
       ),

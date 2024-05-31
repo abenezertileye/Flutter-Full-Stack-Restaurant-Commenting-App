@@ -22,7 +22,6 @@ class ExpansionBar extends StatelessWidget {
     this.onButton2Pressed,
   });
 
-  
   @override
   Widget build(BuildContext context) {
     return Container(
