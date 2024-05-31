@@ -40,15 +40,8 @@ class LogInForm extends StatefulWidget {
 
 class _LogInFormState extends State<LogInForm> {
   final formKey = GlobalKey<FormState>();
-  final passwordController = TextEditingController();
   final usernameController = TextEditingController();
-
-  @override
-  void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,79 +56,85 @@ class _LogInFormState extends State<LogInForm> {
             }
           } else if (state is AuthFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
+              SnackBar(
+                content: Text(state.error),
+              ),
             );
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Sign In.',
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 30),
-                AuthField(
-                  hintText: "Username",
-                  controller: usernameController,
-                ),
-                const SizedBox(height: 15),
-                AuthField(
-                  hintText: "Password",
-                  controller: passwordController,
-                  isObscure: true,
-                ),
-                const SizedBox(height: 20),
-                BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    if (state is AuthLoading) {
-                      return CircularProgressIndicator();
-                    }
-                    return AuthGradientButton(
-                      buttonText: "Sign In",
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          BlocProvider.of<AuthBloc>(context).add(
-                            LogInButtonPressed(
-                              username: usernameController.text,
-                              password: passwordController.text,
-                            ),
-                          );
-                        }
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    context.go('/signup');
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: "Don't have an account?",
-                      style: Theme.of(context).textTheme.titleMedium,
-                      children: [
-                        TextSpan(
-                          text: ' Sign Up',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: AppPallete.gradient3,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 100),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Log In.',
+                    style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 30),
+                  AuthField(
+                    key: Key('usernameLoginField'),
+                    hintText: 'Username',
+                    controller: usernameController,
+                  ),
+                  const SizedBox(height: 15),
+                  AuthField(
+                    key: Key('passwordLoginField'),
+                    hintText: 'Password',
+                    controller: passwordController,
+                    isObscure: true,
+                  ),
+                  const SizedBox(height: 20),
+                  AuthGradientButton(
+                    key: Key('loginButton'),
+                    buttonText: 'Log In',
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        final username = usernameController.text;
+                        final password = passwordController.text;
+
+                        BlocProvider.of<AuthBloc>(context).add(
+                          LogInButtonPressed(
+                            username: username,
+                            password: password,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      context.go('/signup');
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: "Don't have an account?",
+                        style: Theme.of(context).textTheme.titleMedium,
+                        children: [
+                          TextSpan(
+                            text: ' Sign Up',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  color: AppPallete.gradient3,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

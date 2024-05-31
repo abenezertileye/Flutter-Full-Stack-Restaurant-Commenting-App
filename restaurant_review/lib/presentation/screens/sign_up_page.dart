@@ -73,16 +73,19 @@ class SignUpForm extends StatelessWidget {
                   ),
                   const SizedBox(height: 30),
                   AuthField(
+                    key: Key('usernameSignUpField'),
                     hintText: 'Username',
                     controller: usernameController,
                   ),
                   const SizedBox(height: 15),
                   AuthField(
+                    key: Key('emailSignUpField'),
                     hintText: "Email",
                     controller: emailController,
                   ),
                   const SizedBox(height: 15),
                   AuthField(
+                    key: Key('passwordSignUpField'),
                     hintText: "Password",
                     controller: passwordController,
                     isObscure: true,
@@ -100,6 +103,7 @@ class SignUpForm extends StatelessWidget {
                         children: [
                           const Text('Owner'),
                           Radio<UserType>(
+                            key: Key('userTypeRadioButtonOwner'),
                             activeColor: AppPallete.gradient3,
                             value: UserType.owner,
                             groupValue: selectedUserType,
@@ -112,6 +116,7 @@ class SignUpForm extends StatelessWidget {
                           const SizedBox(width: 20),
                           const Text('Customer'),
                           Radio<UserType>(
+                            key: Key('userTypeRadioButtonUser'),
                             activeColor: AppPallete.gradient3,
                             value: UserType.user,
                             groupValue: selectedUserType,
@@ -127,6 +132,7 @@ class SignUpForm extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   AuthGradientButton(
+                    key: Key('signUpButton'),
                     buttonText: "Sign Up",
                     onPressed: () {
                       if (formKey.currentState!.validate()) {

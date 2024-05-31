@@ -56,9 +56,13 @@ class RestaurantPageBloc
       final updateConfirmation = await restaurantPageUseCase.updateComment(
           opinion: event.opinion, commentId: event.commentId);
       emit(UpdateCommentLoaded(updateConfirmation));
+
+      print(1);
     } catch (error) {
       emit(UpdateCommentError('Failed to fetch restaurant details: $error'));
+      print(2);
     }
+    print(3);
   }
 
   void _onDeleteCommentButtonPressed(DeleteCommentButtonPressed event,

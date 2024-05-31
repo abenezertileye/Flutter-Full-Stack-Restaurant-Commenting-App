@@ -43,9 +43,11 @@ class _ModalState extends State<Modal> {
         contact: _contactController.text,
       );
 
-      context.read<RestaurantCrudBloc>().add(CreateRestaurantRequested(restaurant));
+      context
+          .read<RestaurantCrudBloc>()
+          .add(CreateRestaurantRequested(restaurant));
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Successfully created a restaurant.')),
+        SnackBar(content: Text('Check the homepage.')),
       );
       Navigator.of(context).pop();
     } else {
@@ -136,7 +138,8 @@ class _ModalState extends State<Modal> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 245, 149, 24),
                       shadowColor: Colors.orange,
-                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 32.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),

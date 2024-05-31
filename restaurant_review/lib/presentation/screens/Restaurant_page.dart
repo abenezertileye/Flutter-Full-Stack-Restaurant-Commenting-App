@@ -32,6 +32,7 @@ class RestaurantPage extends StatelessWidget {
             BlocProvider.of<RestaurantPageBloc>(context).add(
               CreateCommentButtonPressed(opinion: opinion, restId: restId),
             );
+            Navigator.pop(context);
           },
         );
       },
@@ -52,40 +53,63 @@ class RestaurantPage extends StatelessWidget {
         child: Scaffold(
           body: BlocConsumer<RestaurantPageBloc, RestaurantPageState>(
             listener: (context, state) {
+              print('state: $state');
               if (state is DeleteCommentError) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Failed to delete comment')));
+                  BlocProvider.of<RestaurantPageBloc>(context)
+                      .add(FetchRestaurantDetails(restaurantId));
                 });
               } else if (state is DeleteCommentLoaded) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Successfully deleted comment')));
+                  BlocProvider.of<RestaurantPageBloc>(context)
+                      .add(FetchRestaurantDetails(restaurantId));
                 });
               } else if (state is CreateCommentLoaded) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Successfully created comment')));
+                  BlocProvider.of<RestaurantPageBloc>(context)
+                      .add(FetchRestaurantDetails(restaurantId));
                 });
               } else if (state is CreateCommentError) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Failed to create comment')));
+                  BlocProvider.of<RestaurantPageBloc>(context)
+                      .add(FetchRestaurantDetails(restaurantId));
+                });
+              } else if (state is UpdateCommentLoaded) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Successfully updated comment')));
+                  // Reload the restaurant details
+                  BlocProvider.of<RestaurantPageBloc>(context)
+                      .add(FetchRestaurantDetails(restaurantId));
+                });
+              } else if (state is UpdateCommentError) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to update comment')));
+                  BlocProvider.of<RestaurantPageBloc>(context)
+                      .add(FetchRestaurantDetails(restaurantId));
                 });
               }
             },
             builder: (context, state) {
+              print('state: $state');
               if (state is RestaurantPageLoading ||
-                  state is CreateCommentLoading) {
+                  state is CreateCommentLoading ||
+                  state is UpdateCommentLoading ||
+                  state is DeleteCommentLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is RestaurantPageError) {
                 return Center(child: Text(state.message));
               } else if (state is RestaurantPageLoaded) {
                 final restaurant = state.restaurant;
-                print(
-                    'restaurant data in restaurant profile page: $restaurant');
-                print(
-                    'comment in restaurant profile page: ${restaurant.comments}');
 
                 return SizedBox(
                   height: 1000,
@@ -233,7 +257,7 @@ class RestaurantPage extends StatelessWidget {
                                         onUpdatePressed: () {
                                           showDialog(
                                             context: context,
-                                            builder: (context) {
+                                            builder: (dialogContext) {
                                               return DialogBox(
                                                 controller: _controller,
                                                 onCancel: () =>
@@ -247,6 +271,8 @@ class RestaurantPage extends StatelessWidget {
                                                         commentId: comment.id,
                                                         opinion: opinion),
                                                   );
+
+                                                  Navigator.pop(context);
                                                 },
                                               );
                                             },
@@ -264,7 +290,8 @@ class RestaurantPage extends StatelessWidget {
                   ),
                 );
               } else {
-                return Container();
+                print('ss $state');
+                return CircularProgressIndicator();
               }
               // return SnackBar(content: Text('data'));
             },

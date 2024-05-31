@@ -87,10 +87,13 @@ class RestaurantGrid extends StatelessWidget {
                   chipsList: ["Fast Food"],
                 ),
                 onTap: () {
-                  context.goNamed('/restaurantpage', pathParameters: {
-              'id': restaurant["_id"],
-            });
-                  // Navigator.pushNamed(context, '/restaurantpage');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => RestaurantPage(
+                        restaurantId: restaurant['_id'],
+                      ),
+                    ),
+                  );
                 },
               );
             },

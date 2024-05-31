@@ -22,13 +22,12 @@ class RestaurantPageRepository {
         'Authorization': 'Bearer $token'
       },
     );
-    print('fetching restaurant data: ${response.statusCode}');
+    // print('fetching restaurant data: ${response.statusCode}');
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       // print('responseData in restaurant repo: $responseData');
       final restaurant = Restaurant.fromJson(responseData);
-      print(
-          'restaurant comments in restaurant page repository: ${restaurant.comments}');
+
       return restaurant;
     } else {
       throw Exception('Failed to fetch restaurants: ${response.reasonPhrase}');
@@ -106,7 +105,4 @@ class RestaurantPageRepository {
       throw Exception('Failed to update comment: ${response.reasonPhrase}');
     }
   }
-
-
-  
 }
