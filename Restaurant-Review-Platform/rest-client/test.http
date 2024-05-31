@@ -43,8 +43,8 @@ POST  http://localhost:3000/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "Admin",
-    "password": "123456"
+    "username": "res2",
+    "password": "123456789"
 }
 
 ###LOG IN ADMIN
@@ -74,7 +74,7 @@ Content-Type: application/json
 
 POST http://localhost:3000/restaurant HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjUzOWVmNWY5MmRlYWI3NTliOWM5MGEiLCJ1c2VybmFtZSI6InJlczEiLCJyb2xlcyI6WyJvd25lciJdLCJpYXQiOjE3MTY5MjA4OTUsImV4cCI6MTcxNzAwNzI5NX0.1ISVY1pDyNnQOC13u-l7xAte_ghWUcifu2CRk8ud9OQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjUzYTgzOGNhOTBmMmNhMzRiNTYxNjMiLCJ1c2VybmFtZSI6InJlczIiLCJyb2xlcyI6WyJvd25lciJdLCJpYXQiOjE3MTcxMTU5NDAsImV4cCI6MTcxNzIwMjM0MH0.LXwS3tgxcZloseEfdJa0BPX-5faSuJ7SVmsUph34DbY
    
 {   "name": "Chick-Fil-A pt.2",
     "description": "Italian food",
@@ -117,13 +117,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWEwZTZjM
 ###GET USER BY ID
 GET http://localhost:3000/users/66539ef5f92deab759b9c90a HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU1NTg3Zjk4YWJhYzBjMmM4YmY2ZjgiLCJ1c2VybmFtZSI6IlRlc3RVc2VyIiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTY4NjkyNDcsImV4cCI6MTcxNjk1NTY0N30.3sRMAb6ApC6dnjjJafODgfeOw_6FOaoKa2t41ww-snI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU1YzQ0ODZhZDUyYmZlOTA5MzQxMjMiLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZXMiOlsiYWRtaW4iXSwiaWF0IjoxNzE3MTE1ODI5LCJleHAiOjE3MTcyMDIyMjl9.Olnxs6qUq2wsG22VedBYt5iNy4QpJjLgOWxkqwOammI
 
 ### -------------------------Comments--------------------------------###
 ###CREATE COMMENT
 POST http://localhost:3000/comment HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU2MjdhZTc1NTE5YzVhNTkxMmZkNmEiLCJ1c2VybmFtZSI6InVzZXI1Iiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTcwNDExNDksImV4cCI6MTcxNzEyNzU0OX0.GbOlmfQ-4w-bngw6oMLFjN24XECI7_DlrL71_gup7n0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU4YzVhNmEzNTY2YzJkNjk0ZmNkMzgiLCJ1c2VybmFtZSI6InVzZXIxIiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTcwOTg0ODEsImV4cCI6MTcxNzE4NDg4MX0.P2OVlznRa1NMFTtSIZzLHhBm1n0MyFa8Sqan23Em_hI
 
 {
     "restaurantId": "6656224c75519c5a5912fd4d",
@@ -137,15 +137,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTlmMWMzO
 
 
 ###GET COMMENT BY ID
-GET http://localhost:3000/comment/65a0f300fc6dda37b902eee8 HTTP/1.1
+GET http://localhost:3000/comment/6658d817a3566c2d694fcd70 HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTlmMWMzOGIyNTlkNTE2MmYxNzZjNmQiLCJ1c2VybmFtZSI6IlNpbW9uRGVyZWplIiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MDUwNDUyNzksImV4cCI6MTcwNTEzMTY3OX0.w54dXu-F1M2_3vrewiQQq7He0J4XlU8ZmpwUbcuIuy4
 
 
 ###UPDATE COMMENT
-PUT http://localhost:3000/comment/665627ae75519c5a5912fd6a HTTP/1.1
+PUT http://localhost:3000/comment/6658d817a3566c2d694fcd70 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU2MjdhZTc1NTE5YzVhNTkxMmZkNmEiLCJ1c2VybmFtZSI6InVzZXI1Iiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTcwNDExNDksImV4cCI6MTcxNzEyNzU0OX0.GbOlmfQ-4w-bngw6oMLFjN24XECI7_DlrL71_gup7n0
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjU4YzVhNmEzNTY2YzJkNjk0ZmNkMzgiLCJ1c2VybmFtZSI6InVzZXIxIiwicm9sZXMiOlsidXNlciJdLCJpYXQiOjE3MTcwOTg0ODEsImV4cCI6MTcxNzE4NDg4MX0.P2OVlznRa1NMFTtSIZzLHhBm1n0MyFa8Sqan23Em_hI
 {
     "opinion": "This is the best chicken sandwich I have ever had"
 }

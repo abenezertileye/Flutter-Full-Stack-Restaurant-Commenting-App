@@ -34,7 +34,7 @@ export class RestaurantService {
 
     const ownerId = query.ownerId ? {ownerId: query.ownerId} : {};
     
-    const restaurants = await this.restaurantModel.find({ ...keyword, ...ownerId }).populate("comments").limit(resPerPage).skip(skip).exec();
+    const restaurants = await this.restaurantModel.find({ ...keyword, ...ownerId, isBanned:false }).populate("comments").limit(resPerPage).skip(skip).exec();
 
     return restaurants;
   }
