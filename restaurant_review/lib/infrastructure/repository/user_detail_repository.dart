@@ -83,6 +83,42 @@ class UserRepository {
     }
   }
 
+  //UPDATE USERNAME
+  Future<String> updateUsernameReq({
+    required String username,
+  }) async {
+    String? token = await _secureStorage.read('token');
+
+    if (token == null) {
+      throw Exception('Token not found');
+    }
+
+    // Decode the token to get the user ID (sub)
+    Map<String, dynamic> payload = JwtDecoder.decode(token);
+    String userId = payload['sub'];
+
+    try {
+      final response =
+          await http.patch(Uri.parse('$_baseUrl/users/changeUserName/$userId'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer $token'
+              },
+              body: jsonEncode({'new_username': username}));
+
+      print(' username update status code: ${response.statusCode}');
+      print(response.body);
+      if (response.statusCode == 200) {
+        final responseData = 'Username Updated Successfuly';
+        return responseData;
+      } else {
+        return 'Failed to update password';
+      }
+    } catch (e) {
+      throw Exception('Failed to update username: $e');
+    }
+  }
+
   //DELETE ACCOUNT
   Future<String> deleteAccountReq() async {
     String? token = await _secureStorage.read('token');
