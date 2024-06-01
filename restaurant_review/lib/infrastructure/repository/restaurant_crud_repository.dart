@@ -48,6 +48,7 @@ class RestaurantCrudRepository {
     return response;
   }
 
+//method to update a restaurant
   Future<http.Response> updateRestaurant(
       String id, UpdateRestaurantDTO restaurant) async {
     String? token = await _secureStorage.read('token');
