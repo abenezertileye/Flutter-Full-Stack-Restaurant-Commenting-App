@@ -22,7 +22,7 @@ class UserError extends UserState {
 
   UserError(this.message);
 }
-//events for password update
+//state for password update
 
 class PasswordUpdating extends UserState {}
 
