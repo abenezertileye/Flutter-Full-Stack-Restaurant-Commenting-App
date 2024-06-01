@@ -14,7 +14,9 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<FetchUsers>((event, emit) async {
       emit(AdminLoading());
       try {
+        //fetches all owners
         final owners = await adminRepository.fetch('owner');
+        //fetches all customers
         final customers = await adminRepository.fetch('user');
         emit(AdminLoaded(owners: owners, customers: customers));
       } catch (e) {
