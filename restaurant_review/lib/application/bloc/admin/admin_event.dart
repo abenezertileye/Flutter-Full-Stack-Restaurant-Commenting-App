@@ -7,6 +7,7 @@ abstract class AdminEvent extends Equatable {
 
 class FetchUsers extends AdminEvent {}
 
+//event to ban customers/users
 class ToggleBanCustomer extends AdminEvent {
   final String username;
   final bool isBanned;
@@ -17,6 +18,7 @@ class ToggleBanCustomer extends AdminEvent {
   List<Object> get props => [username, isBanned];
 }
 
+//event to unban a customer
 class ToggleUnBanCustomer extends AdminEvent {
   final int index;
   final bool isBanned;
@@ -27,6 +29,7 @@ class ToggleUnBanCustomer extends AdminEvent {
   List<Object> get props => [index, isBanned];
 }
 
+//event to ban owners
 class ToggleBanOwner extends AdminEvent {
   final String username;
   final bool isBanned;
@@ -37,6 +40,7 @@ class ToggleBanOwner extends AdminEvent {
   List<Object> get props => [username, isBanned];
 }
 
+//event to unban owners
 class ToggleUnBanOwner extends AdminEvent {
   final String username;
   final bool isBanned;
