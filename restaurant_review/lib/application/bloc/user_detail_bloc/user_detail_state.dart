@@ -9,7 +9,7 @@ class UserDetailLoading extends UserState {}
 
 class UserLoading extends UserState {}
 
-//events indicating user state is loaded
+//state indicating user state is loaded
 class UserLoaded extends UserState {
   final UserDetail user;
 
