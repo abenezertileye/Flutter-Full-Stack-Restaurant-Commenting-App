@@ -7,7 +7,7 @@ class RestaurantsRepository {
   final SecureStorage _secureStorage = SecureStorage.instance;
 
   final String _baseUrl = 'http://localhost:3000';
-
+//FETCH ALL RESTAURATS
   Future<List<dynamic>> FetchRestaurants() async {
     String? token = await _secureStorage.read('token');
 
