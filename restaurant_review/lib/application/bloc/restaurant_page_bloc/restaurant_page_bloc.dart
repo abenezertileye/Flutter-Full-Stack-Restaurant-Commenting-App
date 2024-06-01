@@ -46,6 +46,7 @@ class RestaurantPageBloc
     }
   }
 
+//updates commet
   void _onUpdateCommentButtonPressed(UpdateCommentButtonPressed event,
       Emitter<RestaurantPageState> emit) async {
     emit(UpdateCommentLoading());
