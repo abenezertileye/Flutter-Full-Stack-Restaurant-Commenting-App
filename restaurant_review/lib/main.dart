@@ -29,8 +29,10 @@ class MyApp extends StatelessWidget {
     final restaurantPageUseCase = RestaurantPageUseCase(
         restaurantPageRepository: restaurantPageRepository);
 
-    final restaurantCrudUsecase = RestaurantCrudUsecase(restaurantCrudRepository);
+    final restaurantCrudUsecase =
+        RestaurantCrudUsecase(restaurantCrudRepository);
     return MultiBlocProvider(
+      //bloc providers
       providers: [
         BlocProvider<RestaurantPageBloc>(
           create: (context) => RestaurantPageBloc(
@@ -38,11 +40,9 @@ class MyApp extends StatelessWidget {
             restaurantPageUseCase: restaurantPageUseCase,
           ),
         ),
-
-        BlocProvider<RestaurantCrudBloc>(create: (context) => RestaurantCrudBloc(restaurantCrudUsecase),)
-
-        
-        // Add other providers here if needed
+        BlocProvider<RestaurantCrudBloc>(
+          create: (context) => RestaurantCrudBloc(restaurantCrudUsecase),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
