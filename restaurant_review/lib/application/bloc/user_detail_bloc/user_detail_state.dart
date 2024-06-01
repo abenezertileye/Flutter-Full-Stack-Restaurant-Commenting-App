@@ -16,6 +16,7 @@ class UserLoaded extends UserState {
   UserLoaded(this.user);
 }
 
+//events for errors durning loading
 class UserError extends UserState {
   final String message;
 
