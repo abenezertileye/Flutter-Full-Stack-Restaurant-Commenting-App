@@ -73,28 +73,5 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
         }
       }
     });
-
-// //UNBAN OWNERS
-//     on<ToggleUnBanOwner>((event, emit) async {
-//       final currentState = state;
-//       print('owner block attempt');
-//       if (currentState is AdminLoaded) {
-//         try {
-//           await adminRepository
-//               .unban(currentState.owners[event.index].username);
-//           print(
-//               'user to be banned: ${currentState.owners[event.index].username}');
-
-//           final updatedOwners = List<UserDetail>.from(currentState.owners);
-//           updatedOwners[event.index] =
-//               updatedOwners[event.index].copyWith(isBanned: event.isBanned);
-
-//           emit(AdminLoaded(
-//               owners: updatedOwners, customers: currentState.customers));
-//         } catch (e) {
-//           emit(AdminError(message: 'Failed to ban owner: ${e}'));
-//         }
-//       }
-//     });
   }
 }
