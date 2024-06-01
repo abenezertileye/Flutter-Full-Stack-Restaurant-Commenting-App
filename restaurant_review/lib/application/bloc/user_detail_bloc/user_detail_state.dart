@@ -2,12 +2,14 @@ import 'package:restaurant_review/domain/entities/user_detail_entity.dart';
 
 abstract class UserState {}
 
+//event to load user state
 class UserInitial extends UserState {}
 
 class UserDetailLoading extends UserState {}
 
 class UserLoading extends UserState {}
 
+//events indicating user state is loaded
 class UserLoaded extends UserState {
   final UserDetail user;
 
