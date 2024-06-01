@@ -32,7 +32,7 @@ class PasswordUpdated extends UserState {
   PasswordUpdated(this.message);
 }
 
-//events to delete account
+//state to delete account
 class DeletingAccount extends UserState {}
 
 class AccountDeleted extends UserState {
