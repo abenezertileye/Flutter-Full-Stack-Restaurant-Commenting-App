@@ -18,6 +18,7 @@ class RestaurantPageBloc
     on<UpdateCommentButtonPressed>(_onUpdateCommentButtonPressed);
   }
 
+//fetch all restaurant detail
   void _onFetchRestaurantDetails(
       FetchRestaurantDetails event, Emitter<RestaurantPageState> emit) async {
     emit(RestaurantPageLoading());
@@ -29,6 +30,7 @@ class RestaurantPageBloc
     }
   }
 
+//creates a new comment
   void _onCreateCommentButtonPressed(CreateCommentButtonPressed event,
       Emitter<RestaurantPageState> emit) async {
     emit(CreateCommentLoading());
