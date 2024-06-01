@@ -6,7 +6,7 @@ class AuthUseCase {
   final AuthRepository authRepository;
 
   AuthUseCase({required this.authRepository});
-
+//REDIRECTS TO SIGN UP IN REPOSITORY
   Future<User> signup({
     required String username,
     required String email,
@@ -22,6 +22,7 @@ class AuthUseCase {
     return user;
   }
 
+//REDIRECTS TO LOGIN IN AUTH REPOSITORY
   Future<User> login({
     required String username,
     required String password,
